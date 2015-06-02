@@ -6,9 +6,8 @@
 #include <string>
 #include <cmath>
 
-typedef long double val_t;
-typedef std::vector <val_t> intvector_t;
 typedef float float_t;
+typedef std::vector <float_t> intvector_t;
 intvector_t DATA;
 
 float_t
@@ -62,9 +61,9 @@ void Display() {
 	Type(width - 230 * width/size_x, height - 60 * height/size_y, std::string(std::string() + "Height: " + std::to_string(height)).c_str());
 
 	glColor3f(0.0f,1.0f,0.0f);
-	for(val_t i = 0; i < DATA.size(); ++i) {
-		val_t *x = &i;
-		val_t *y = &DATA[i];
+	for(float_t i = 0; i < DATA.size(); ++i) {
+		float_t *x = &i;
+		float_t *y = &DATA[i];
 		ArrangeDot(*x, *y);
 	}
 
@@ -177,7 +176,7 @@ void Special(int key, int x, int y) {
 }
 
 int main(int argc, char **argv) {
-	val_t number, value;
+	float_t number, value;
 	while(std::cin >> value) {
 		DATA.push_back(value);
 	}
