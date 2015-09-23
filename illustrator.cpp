@@ -9,7 +9,7 @@
 
 typedef double real_t;
 
-std::vector <real_t> DATA;
+std::vector <real_t> data;
 
 real_t
 	size_x = 800,
@@ -27,25 +27,18 @@ real_t
 	shift_x = 0,
 	shift_y = 0;
 
-void DrawText(real_t x, real_t y, const char *string) {
+void DrawText(real_t x, real_t y, const std::string &str) {
 	glRasterPos2f(x, y);
-	for (const char *c = string; *c != '\0'; ++c)
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
+	for(size_t i = 0; i < str.length(); ++i)
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i]);
 }
 
-inline void DrawPoint(real_t &x, real_t &y) {
+inline void DrawPoint(real_t x, real_t y) {
 	real_t
 		point_x = 2 * x - shift_x,
 		point_y = 2 * y - shift_y;
-	if(
-			point_x >= width
-		||
-			point_x < 0
-		||
-			point_y >= height
-		||
-			point_y < 0
-	)
+	if(point_x < 0 || point_x >= width ||
+		point_y < 0 || point_y >= height)
 		return;
 	glPushMatrix();	                                        //Push and pop the current matrix stack
 	glTranslatef(point_x, point_y, 0);                      //Multiplies the current matrix by a translation matrix
@@ -65,14 +58,18 @@ void Display() {
 	glOrtho(0, width, 0, height, 1, -1);                    //Multiply the current matrix with an orthographic matrix.
 
 	glColor3f(0.8f,0.6f,0.0f);
-	DrawText(width - 230 * width/size_x, height - 30 * height/size_y, std::string(std::string() + "Width:  " + std::to_string(width)).c_str());
-	DrawText(width - 230 * width/size_x, height - 60 * height/size_y, std::string(std::string() + "Height: " + std::to_string(height)).c_str());
+	DrawText(width - 230 * width/size_x,
+		height - 30 * height/size_y,
+		("Width:  " + std::to_string(width)));
+	DrawText(width - 230 * width/size_x,
+		height - 60 * height/size_y,
+		("Height: " + std::to_string(height)));
 
 	glColor3f(0.0f,1.0f,0.0f);
-	for(real_t i = 0; i < DATA.size(); ++i) {
+	for(real_t i = 0; i < data.size(); ++i) {
 		real_t
 			*x = &i,
-			*y = &DATA[i];
+			*y = &data[i];
 		DrawPoint(*x, *y);
 	}
 
@@ -81,10 +78,10 @@ void Display() {
 	glPushMatrix();
 	glTranslatef(0, -shift_y, 0);
 	glBegin(GL_QUADS);
-		glVertex3f( 0,	    bold_y / 2	, 0.0);
-		glVertex3f( 0,	   -bold_y / 2	, 0.0);
-		glVertex3f( width, -bold_y / 2	, 0.0);
-		glVertex3f( width,  bold_y / 2	, 0.0);
+		glVertex3f(0,	   bold_y / 2	, 0.0);
+		glVertex3f(0,	  -bold_y / 2	, 0.0);
+		glVertex3f(width, -bold_y / 2	, 0.0);
+		glVertex3f(width,  bold_y / 2	, 0.0);
 	glEnd();
 	glPopMatrix();
 
@@ -92,10 +89,10 @@ void Display() {
 	glPushMatrix();
 	glTranslatef(-shift_x, 0, 0);
 	glBegin(GL_QUADS);
-		glVertex3f( -bold_x / 2, 0      , 0.0);
-		glVertex3f(  bold_x / 2, 0      , 0.0);
-		glVertex3f(  bold_x / 2, height , 0.0);
-		glVertex3f( -bold_x / 2, height , 0.0);
+		glVertex3f(-bold_x / 2, 0      , 0.0);
+		glVertex3f( bold_x / 2, 0      , 0.0);
+		glVertex3f( bold_x / 2, height , 0.0);
+		glVertex3f(-bold_x / 2, height , 0.0);
 	glEnd();
 	glPopMatrix();
 
@@ -195,15 +192,14 @@ void Special(int key, int x, int y) {
 	}
 }
 
-template <class anything_t>
-void fill_data(std::vector <anything_t> &data) {
+void FillData(std::vector <real_t> &data) {
 	real_t value;
 	while(std::cin >> value)
 		data.push_back(value);
 }
 
 int main(int argc, char **argv) {
-	fill_data(DATA);
+	FillData(data);
 	glutInit(&argc, argv);		//Initialize the GLUT library.
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);	//Set the initial display mode.
 	glutInitWindowSize(size_x, size_y);
