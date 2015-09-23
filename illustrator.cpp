@@ -1,16 +1,17 @@
 #include <GLUT/glut.h>
 
-#include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <string>
+
+#include <cstdlib>
 #include <cmath>
 
-typedef float float_t;
-typedef std::vector <float_t> intvector_t;
-intvector_t DATA;
+typedef double real_t;
 
-float_t
+std::vector <real_t> DATA;
+
+real_t
 	size_x = 800,
 	size_y = 800,
 
@@ -26,67 +27,75 @@ float_t
 	shift_x = 0,
 	shift_y = 0;
 
-void Type(float_t x, float_t y, const char *string) {
+void DrawText(real_t x, real_t y, const char *string) {
 	glRasterPos2f(x, y);
-	for (const char *c = string; *c != '\0'; ++c) {
+	for (const char *c = string; *c != '\0'; ++c)
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
-	}
 }
 
-inline void ArrangeDot(long double x, long double y) {
+inline void DrawPoint(real_t &x, real_t &y) {
+	real_t
+		point_x = 2 * x - shift_x,
+		point_y = 2 * y - shift_y;
 	if(
-		abs(2 * x - shift_x) >= width ||
-		abs(2 * y - shift_y) >= height
+			point_x >= width
+		||
+			point_x < 0
+		||
+			point_y >= height
+		||
+			point_y < 0
 	)
 		return;
-	glPushMatrix();		//Push and pop the current matrix stack
-	glTranslatef(2 * x - shift_x, 2 * y - shift_y, 0);	//Multiplies the current matrix by a translation matrix
-	glBegin(GL_QUADS);	//Delimit the verticles of a primitive or a group of like primitives
-		glVertex3f( +bold_x, +bold_y, 0.0);	//Specifies a vertex
-		glVertex3f( +bold_x, -bold_y, 0.0);	//Specifies a vertex
-		glVertex3f( -bold_x, -bold_y, 0.0);	//Specifies a vertex
-		glVertex3f( -bold_x, +bold_y, 0.0);	//Specifies a vertex
+	glPushMatrix();	                                        //Push and pop the current matrix stack
+	glTranslatef(point_x, point_y, 0);                      //Multiplies the current matrix by a translation matrix
+	glBegin(GL_QUADS);                                      //Delimit the verticles of a primitive or a group of like primitives
+		glVertex3f(  bold_x,  bold_y, 0.0);             //Specifies a vertex
+		glVertex3f(  bold_x, -bold_y, 0.0);             //Specifies a vertex
+		glVertex3f( -bold_x, -bold_y, 0.0);             //Specifies a vertex
+		glVertex3f( -bold_x,  bold_y, 0.0);             //Specifies a vertex
 	glEnd();
 	glPopMatrix();
 }
 
 void Display() {
-	glLoadIdentity();				//Replace current matrix with the identity matrix.
-	glClear(GL_COLOR_BUFFER_BIT);			//Clear buffer to preset values.
-	glMatrixMode(GL_PROJECTION);			//Specify which matrix is the current matrix. main::options: GL_MODELVIEW GL_PROJECTION GL_TEXTURE.
-	glOrtho(0, width, 0, height, 1, -1);		//Multiply the current matrix with an orthographic matrix.
+	glLoadIdentity();                                       //Replace current matrix with the identity matrix.
+	glClear(GL_COLOR_BUFFER_BIT);                           //Clear buffer to preset values.
+	glMatrixMode(GL_PROJECTION);                            //Specify which matrix is the current matrix. main::options: GL_MODELVIEW GL_PROJECTION GL_TEXTURE.
+	glOrtho(0, width, 0, height, 1, -1);                    //Multiply the current matrix with an orthographic matrix.
 
 	glColor3f(0.8f,0.6f,0.0f);
-	Type(width - 230 * width/size_x, height - 30 * height/size_y, std::string(std::string() + "Width:  " + std::to_string(width)).c_str());
-	Type(width - 230 * width/size_x, height - 60 * height/size_y, std::string(std::string() + "Height: " + std::to_string(height)).c_str());
+	DrawText(width - 230 * width/size_x, height - 30 * height/size_y, std::string(std::string() + "Width:  " + std::to_string(width)).c_str());
+	DrawText(width - 230 * width/size_x, height - 60 * height/size_y, std::string(std::string() + "Height: " + std::to_string(height)).c_str());
 
 	glColor3f(0.0f,1.0f,0.0f);
-	for(float_t i = 0; i < DATA.size(); ++i) {
-		float_t *x = &i;
-		float_t *y = &DATA[i];
-		ArrangeDot(*x, *y);
+	for(real_t i = 0; i < DATA.size(); ++i) {
+		real_t
+			*x = &i,
+			*y = &DATA[i];
+		DrawPoint(*x, *y);
 	}
 
 	glColor3f(1.0f,1.0f,0.0f);
-	//abscissa
+	//Abscissa
 	glPushMatrix();
 	glTranslatef(0, -shift_y, 0);
 	glBegin(GL_QUADS);
-		glVertex3f( 0,	   +bold_y/2	, 0.0);
-		glVertex3f( 0,	   -bold_y/2	, 0.0);
-		glVertex3f( width, -bold_y/2	, 0.0);
-		glVertex3f( width, +bold_y/2	, 0.0);
+		glVertex3f( 0,	    bold_y / 2	, 0.0);
+		glVertex3f( 0,	   -bold_y / 2	, 0.0);
+		glVertex3f( width, -bold_y / 2	, 0.0);
+		glVertex3f( width,  bold_y / 2	, 0.0);
 	glEnd();
 	glPopMatrix();
 
-	//ordinata
+	//Ordinata
 	glPushMatrix();
-	glTranslatef(- shift_x, 0, 0);
+	glTranslatef(-shift_x, 0, 0);
 	glBegin(GL_QUADS);
-		glVertex3f( -bold_x/2, 0		, 0.0);
-		glVertex3f( +bold_x/2, 0		, 0.0);
-		glVertex3f( +bold_x/2, height	, 0.0);
-		glVertex3f( -bold_x/2, height	, 0.0);
+		glVertex3f( -bold_x / 2, 0      , 0.0);
+		glVertex3f(  bold_x / 2, 0      , 0.0);
+		glVertex3f(  bold_x / 2, height , 0.0);
+		glVertex3f( -bold_x / 2, height , 0.0);
 	glEnd();
 	glPopMatrix();
 
@@ -94,8 +103,8 @@ void Display() {
 }
 
 void Reshape(int new_size_x, int new_size_y) {
-	width *= float_t(new_size_x)/size_x;
-	height *= float_t(new_size_y)/size_y;
+	width *= real_t(new_size_x) / size_x;
+	height *= real_t(new_size_y) / size_y;
 
 	size_x = new_size_x;
 	size_y = new_size_y;
@@ -108,37 +117,48 @@ void Reshape(int new_size_x, int new_size_y) {
 }
 
 void Keyboard(unsigned char key, int x, int y) {
+	real_t
+		increase = 1 + change,
+		decrease = 1 / increase;
 	switch(key) {
-		case 27 :
+		case  27:
 		case 'q':
 		case 'Q':
 			exit(0);
 			break;
 		case 'm':
-			width /= (1 + change);
-			height /= (1 + change);
+			width   *= decrease;
+			height  *= decrease;
+			shift_x *= decrease;
+			shift_y *= decrease;
 			break;
 		case 'M':
-			width *= (1 + change);
-			height *= (1 + change);
+			width   *= increase;
+			height  *= increase;
+			shift_x *= increase;
+			shift_y *= increase;
 			break;
 		case 'b':
-			BOLD /= (1 + change);
+			BOLD    *= decrease;
 			break;
 		case 'B':
-			BOLD *= (1 + change);
+			BOLD    *= increase;
 			break;
 		case 't':
-			width *= (1 - change);
+			width   *= decrease;
+			shift_x *= decrease;
 			break;
 		case 'T':
-			width *= (1 + change);
+			width   *= increase;
+			shift_x *= increase;
 			break;
 		case 'y':
-			height *= (1 - change);
+			height  *= decrease;
+			shift_y *= decrease;
 			break;
 		case 'Y':
-			height *= (1 + change);
+			height  *= increase;
+			shift_y *= increase;
 			break;
 		case 'w':
 			shift_y += height * change;
@@ -175,11 +195,15 @@ void Special(int key, int x, int y) {
 	}
 }
 
+template <class anything_t>
+void fill_data(std::vector <anything_t> &data) {
+	real_t value;
+	while(std::cin >> value)
+		data.push_back(value);
+}
+
 int main(int argc, char **argv) {
-	float_t number, value;
-	while(std::cin >> value) {
-		DATA.push_back(value);
-	}
+	fill_data(DATA);
 	glutInit(&argc, argv);		//Initialize the GLUT library.
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);	//Set the initial display mode.
 	glutInitWindowSize(size_x, size_y);
