@@ -1,4 +1,4 @@
-#include <GLUT/glut.h>
+#include "glut_config.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -8,7 +8,6 @@
 
 typedef long double val_t;
 
-
 val_t
 	STEP	= 0.1,	BOLD	= 0.5,	change	= 0.05,
 	width	= 300,	height	= width,
@@ -16,16 +15,15 @@ val_t
 	shift_x	= 0,	shift_y	= 0;
 
 char *function = "f(x) = log(x)";
-val_t GetFunction(const val_t &x) {
+val_t calc(const val_t &x) {
 	val_t y = log(x);
 	return y;
 }
 
 void Type(val_t x, val_t y, const char *string) {
 	glRasterPos2f(x, y);
-	for (const char *c = string; *c != '\0'; ++c) {
+	for(const char *c = string; *c != '\0'; ++c)
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
-	}
 }
 
 inline void ArrangeDot(val_t x, val_t y) {
@@ -56,7 +54,7 @@ void Display() {
 
 	glColor3f(0.0f,1.0f,0.0f);
 	for(val_t x = -width + shift_x; x <= width + shift_x; x += STEP) {
-		val_t y = GetFunction(x);
+		val_t y = calc(x);
 		if(y > height/2 + shift_y || y < -height/2 - shift_y) continue;
 		ArrangeDot(x, y);
 	}
