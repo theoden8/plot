@@ -6,36 +6,20 @@
 #include <string>
 #include <cmath>
 
-typedef long double val_t;
+#include "graphics.hpp""
 
-val_t
-	STEP	= 0.1,	BOLD	= 0.5,	change	= 0.05,
-	width	= 300,	height	= width,
-	size_x	= 800,	size_y	= 800,
-	shift_x	= 0,	shift_y	= 0;
+typedef long double real_t;
 
-char *function = "f(x) = log(x)";
-val_t calc(const val_t &x) {
-	val_t y = log(x);
+real_t
+	STEP    = 0.1,  BOLD    = 0.5,   change = 0.05,
+	width   = 300,  height  = width,
+	size_x  = 800,  size_y  = 800,
+	shift_x = 0,    shift_y = 0;
+
+const char *function = "f(x) = log(x)";
+real_t calc(const real_t &x) {
+	real_t y = log(x);
 	return y;
-}
-
-void Type(val_t x, val_t y, const char *string) {
-	glRasterPos2f(x, y);
-	for(const char *c = string; *c != '\0'; ++c)
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
-}
-
-inline void ArrangeDot(val_t x, val_t y) {
-	glPushMatrix();		//Push and pop the current matrix stack
-	glTranslatef(width/2 + 2 * x - shift_x, height/2 + 2 * y - shift_y, 0);	//Multiplies the current matrix by a translation matrix
-	glBegin(GL_QUADS);	//Delimit the verticles of a primitive or a group of like primitives
-		glVertex3f( +BOLD, +BOLD, 0.0);	//Specifies a vertex
-		glVertex3f( +BOLD, -BOLD, 0.0);	//Specifies a vertex
-		glVertex3f( -BOLD, -BOLD, 0.0);	//Specifies a vertex
-		glVertex3f( -BOLD, +BOLD, 0.0);	//Specifies a vertex
-	glEnd();
-	glPopMatrix();
 }
 
 void Display() {
@@ -46,17 +30,28 @@ void Display() {
 	glMatrixMode(GL_PROJECTION);			//Specify which matrix is the current matrix. main::options: GL_MODELVIEW GL_PROJECTION GL_TEXTURE.
 	glOrtho(0, width, 0, height, 1, -1);		//Multiply the current matrix with an orthographic matrix.
 
-	glColor3f(0.7f,0.7f,1.0f);	Type(0.02 * width, 0.98 * height, function);
-	glColor3f(1.0f,0.7f,0.7f);	Type(0.02 * width, 0.95 * height, std::string("STEP == " + std::to_string(STEP)).c_str());
-	glColor3f(0.0f,0.7f,0.7f);	Type(0.02 * width, 0.92 * height, std::string("WIDTH == " + std::to_string(width)).c_str());
-					Type(0.02 * width, 0.89 * height, std::string("HEIGHT == " + std::to_string(height)).c_str());
-	glColor3f(1.0f,1.0f,0.0f);	Type(0.02 * width, 0.86 * height, std::string("CENTER: (" + std::to_string(shift_x) + ", " + std::to_string(shift_y) + ')').c_str());
+	glColor3f(0.7f,0.7f,1.0f);
+	DrawText(0.02 * width, 0.98 * height, function);
+
+	glColor3f(1.0f,0.7f,0.7f);
+	DrawText(0.02 * width, 0.95 * height, std::string("STEP == ", str(STEP)).c_str());
+
+	glColor3f(0.0f,0.7f,0.7f);
+	DrawText(0.02 * width, 0.92 * height, std::string("WIDTH == ", str(width)).c_str());
+	DrawText(0.02 * width, 0.89 * height, std::string("HEIGHT == ", str(height)).c_str());
+
+	glColor3f(1.0f,1.0f,0.0f);
+	DrawText(0.02 * width, 0.86 * height, (std::string("CENTER: (") + str(shift_x) + ", " + str(shift_y) + ")").c_str());
 
 	glColor3f(0.0f,1.0f,0.0f);
-	for(val_t x = -width + shift_x; x <= width + shift_x; x += STEP) {
-		val_t y = calc(x);
-		if(y > height/2 + shift_y || y < -height/2 - shift_y) continue;
-		ArrangeDot(x, y);
+	for(real_t x = -width + shift_x; x <= width + shift_x; x += STEP) {
+		real_t y = calc(x);
+		if(y > height/2 + shift_y
+		   || y < -height/2 - shift_y)
+		{
+			continue;
+		}
+		DrawDot(x, y, BOLD, BOLD);
 	}
 
 	glColor3f(1.0f,1.0f,0.0f);
@@ -87,10 +82,12 @@ void Display() {
 }
 
 void Reshape(int new_size_x, int new_size_y) {
-	width *= val_t(new_size_x)/size_x;
-	height *= val_t(new_size_y)/size_y;
+	width *= real_t(new_size_x)/size_x;
+	height *= real_t(new_size_y)/size_y;
+
 	size_x = new_size_x;
 	size_y = new_size_y;
+
 	glViewport(0, 0, size_x, size_y);
 	glutPostRedisplay();
 }
@@ -177,7 +174,7 @@ int main(int argc, char **argv) {
 	glutInit(&argc, argv);		//Initialize the GLUT library.
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);	//Set the initial display mode.
 	glutInitWindowSize(size_x, size_y);
-	glutCreateWindow("gl_world");
+	glutCreateWindow("grapher");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

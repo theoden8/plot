@@ -1,98 +1,101 @@
 #include "glut_config.h"
 
+#include <cstdlib>
+#include <cmath>
+
 #include <iostream>
 #include <vector>
 #include <string>
 
-#include <cstdlib>
-#include <cmath>
+#include "graphics.hpp""
 
 typedef double real_t;
 
 std::vector <real_t> data;
 
-real_t
-	size_x = 800,
-	size_y = 800,
+struct axis {
+	real_t
+		winsize,
+		sizeth,
+		shift,
+		thickness;
 
-	width(size_x * 4),
-	height(size_y * 4),
+public:
+	axis(real_t winsize, real_t thickness, real_t shift):
+		winsize(winsize), sizeth(winsize * 4), thickness(thickness), shift(shift)
+	{}
 
-	change = 0.05,
+	real_t bold() const {
+		return thickness * sizeth / winsize;
+	}
 
-	BOLD = 3,
-	bold_x(BOLD * width / size_x),
-	bold_y(BOLD * height / size_y),
+	real_t set_size(real_t newsize) {
+		sizeth *= newsize / winsize;
+		winsize = newsize;
+	}
 
-	shift_x = 0,
-	shift_y = 0;
+	real_t set_shift(real_t change) {
+		shift += sizeth * change;
+	}
+};
 
-void DrawText(real_t x, real_t y, const std::string &str) {
-	glRasterPos2f(x, y);
-	for(size_t i = 0; i < str.length(); ++i)
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i]);
-}
+axis
+	x_axis(800, 3, 0),
+	y_axis(800, 3, 0);
 
 inline void DrawPoint(real_t x, real_t y) {
-	real_t
-		point_x = 2 * x - shift_x,
-		point_y = 2 * y - shift_y;
-	if(point_x < 0 || point_x >= width ||
-		point_y < 0 || point_y >= height)
+	x = 2 * x - x_axis.shift;
+	y = 2 * y - y_axis.shift;
+	if(
+		x < 0 || x >= x_axis.sizeth ||
+		y < 0 || y >= y_axis.sizeth
+	)
+	{
 		return;
-	glPushMatrix();	                                        //Push and pop the current matrix stack
-	glTranslatef(point_x, point_y, 0);                      //Multiplies the current matrix by a translation matrix
-	glBegin(GL_QUADS);                                      //Delimit the verticles of a primitive or a group of like primitives
-		glVertex3f(  bold_x,  bold_y, 0.0);             //Specifies a vertex
-		glVertex3f(  bold_x, -bold_y, 0.0);             //Specifies a vertex
-		glVertex3f( -bold_x, -bold_y, 0.0);             //Specifies a vertex
-		glVertex3f( -bold_x,  bold_y, 0.0);             //Specifies a vertex
-	glEnd();
-	glPopMatrix();
+	}
+	DrawDot(x, y, x_axis.bold(), y_axis.bold());
 }
 
 void Display() {
 	glLoadIdentity();                                       //Replace current matrix with the identity matrix.
 	glClear(GL_COLOR_BUFFER_BIT);                           //Clear buffer to preset values.
 	glMatrixMode(GL_PROJECTION);                            //Specify which matrix is the current matrix. main::options: GL_MODELVIEW GL_PROJECTION GL_TEXTURE.
-	glOrtho(0, width, 0, height, 1, -1);                    //Multiply the current matrix with an orthographic matrix.
+	glOrtho(0, x_axis.sizeth, 0, y_axis.sizeth, 1, -1);                    //Multiply the current matrix with an orthographic matrix.
 
 	glColor3f(0.8f,0.6f,0.0f);
-	DrawText(width - 230 * width/size_x,
-		height - 30 * height/size_y,
-		("Width:  " + std::to_string(width)));
-	DrawText(width - 230 * width/size_x,
-		height - 60 * height/size_y,
-		("Height: " + std::to_string(height)));
+
+	DrawText(x_axis.sizeth - 230 * x_axis.sizeth/x_axis.winsize,
+		y_axis.sizeth - 30 * y_axis.sizeth/y_axis.winsize,
+		(std::string("x_axis.sizeth:  ") + str(x_axis.sizeth)).c_str());
+	DrawText(x_axis.sizeth - 230 * x_axis.sizeth/x_axis.winsize,
+		y_axis.sizeth - 60 * y_axis.sizeth/y_axis.winsize,
+		(std::string("y_axis.sizeth: ") + str(y_axis.sizeth)).c_str());
 
 	glColor3f(0.0f,1.0f,0.0f);
 	for(real_t i = 0; i < data.size(); ++i) {
-		real_t
-			*x = &i,
-			*y = &data[i];
-		DrawPoint(*x, *y);
+		DrawPoint(i, data[i]);
 	}
 
 	glColor3f(1.0f,1.0f,0.0f);
 	//Abscissa
 	glPushMatrix();
-	glTranslatef(0, -shift_y, 0);
+	glTranslatef(0, -y_axis.shift, 0);
 	glBegin(GL_QUADS);
-		glVertex3f(0,	   bold_y / 2	, 0.0);
-		glVertex3f(0,	  -bold_y / 2	, 0.0);
-		glVertex3f(width, -bold_y / 2	, 0.0);
-		glVertex3f(width,  bold_y / 2	, 0.0);
+		glVertex3f(0,  y_axis.bold() / 2, 0.0);
+		glVertex3f(0, -y_axis.bold() / 2, 0.0);
+		glVertex3f(x_axis.sizeth, -y_axis.bold() / 2, 0.0);
+		glVertex3f(x_axis.sizeth,  y_axis.bold() / 2, 0.0);
 	glEnd();
 	glPopMatrix();
 
 	//Ordinata
 	glPushMatrix();
-	glTranslatef(-shift_x, 0, 0);
+	glTranslatef(-x_axis.shift, 0, 0);
 	glBegin(GL_QUADS);
-		glVertex3f(-bold_x / 2, 0      , 0.0);
-		glVertex3f( bold_x / 2, 0      , 0.0);
-		glVertex3f( bold_x / 2, height , 0.0);
-		glVertex3f(-bold_x / 2, height , 0.0);
+		glVertex3f(-x_axis.bold() / 2, 0      , 0.0);
+		glVertex3f( x_axis.bold() / 2, 0      , 0.0);
+		glVertex3f( x_axis.bold() / 2, y_axis.sizeth , 0.0);
+		glVertex3f(-x_axis.bold() / 2, y_axis.sizeth , 0.0);
 	glEnd();
 	glPopMatrix();
 
@@ -100,21 +103,17 @@ void Display() {
 }
 
 void Reshape(int new_size_x, int new_size_y) {
-	width *= real_t(new_size_x) / size_x;
-	height *= real_t(new_size_y) / size_y;
+	x_axis.set_size(new_size_x);
+	y_axis.set_size(new_size_y);
 
-	size_x = new_size_x;
-	size_y = new_size_y;
-
-	bold_x = BOLD * width/size_x;
-	bold_y = BOLD * height/size_y;
-
-	glViewport(0, 0, size_x, size_y);
+	glViewport(0, 0, x_axis.winsize, y_axis.winsize);
 	glutPostRedisplay();
 }
 
 void Keyboard(unsigned char key, int x, int y) {
-	real_t
+	static const real_t
+		change = 0.05;
+	static const real_t
 		increase = 1 + change,
 		decrease = 1 / increase;
 	switch(key) {
@@ -122,57 +121,62 @@ void Keyboard(unsigned char key, int x, int y) {
 		case 'q':
 		case 'Q':
 			exit(0);
-			break;
 		case 'm':
-			width   *= decrease;
-			height  *= decrease;
-			shift_x *= decrease;
-			shift_y *= decrease;
-			break;
+			x_axis.sizeth    *= decrease;
+			y_axis.sizeth    *= decrease;
+			x_axis.shift     *= decrease;
+			y_axis.shift     *= decrease;
+		break;
 		case 'M':
-			width   *= increase;
-			height  *= increase;
-			shift_x *= increase;
-			shift_y *= increase;
-			break;
+			x_axis.sizeth    *= increase;
+			y_axis.sizeth    *= increase;
+			x_axis.shift     *= increase;
+			y_axis.shift     *= increase;
+		break;
 		case 'b':
-			BOLD    *= decrease;
-			break;
+			x_axis.thickness *= decrease;
+			y_axis.thickness *= decrease;
+		break;
 		case 'B':
-			BOLD    *= increase;
-			break;
+			x_axis.thickness *= increase;
+			y_axis.thickness *= increase;
+		break;
 		case 't':
-			width   *= decrease;
-			shift_x *= decrease;
-			break;
+			x_axis.sizeth    *= decrease;
+			x_axis.shift     *= decrease;
+		break;
 		case 'T':
-			width   *= increase;
-			shift_x *= increase;
-			break;
+			x_axis.sizeth    *= increase;
+			x_axis.shift     *= increase;
+		break;
 		case 'y':
-			height  *= decrease;
-			shift_y *= decrease;
-			break;
+			y_axis.sizeth    *= decrease;
+			y_axis.shift     *= decrease;
+		break;
 		case 'Y':
-			height  *= increase;
-			shift_y *= increase;
-			break;
+			y_axis.sizeth    *= increase;
+			y_axis.shift     *= increase;
+		break;
 		case 'w':
-			shift_y += height * change;
-			break;
+			y_axis.set_shift(+change);
+		break;
 		case 's':
-			shift_y -= height * change;
-			break;
+			y_axis.set_shift(-change);
+		break;
 		case 'a':
-			shift_x -= width * change;
-			break;
+			x_axis.set_shift(-change);
+		break;
 		case 'd':
-			shift_x += width * change;
-			break;
+			x_axis.set_shift(+change);
+		break;
 	}
-	bold_x = BOLD * width/size_x;
-	bold_y = BOLD * height/size_y;
 	Display();
+}
+
+void FillData(std::vector <real_t> &data) {
+	real_t value;
+	while(std::cin >> value)
+		data.push_back(value);
 }
 
 void Special(int key, int x, int y) {
@@ -192,18 +196,12 @@ void Special(int key, int x, int y) {
 	}
 }
 
-void FillData(std::vector <real_t> &data) {
-	real_t value;
-	while(std::cin >> value)
-		data.push_back(value);
-}
-
 int main(int argc, char **argv) {
 	FillData(data);
-	glutInit(&argc, argv);		//Initialize the GLUT library.
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);	//Set the initial display mode.
-	glutInitWindowSize(size_x, size_y);
-	glutCreateWindow("gl_world");
+	glutInit(&argc, argv);                                      //Initialize the GLUT library.
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);  //Set the initial display mode.
+	glutInitWindowSize(x_axis.winsize, y_axis.winsize);
+	glutCreateWindow("illustrator");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
