@@ -66,10 +66,10 @@ void Display() {
 
 	DrawText(x_axis.sizeth - 230 * x_axis.sizeth/x_axis.winsize,
 		y_axis.sizeth - 30 * y_axis.sizeth/y_axis.winsize,
-		(std::string("x_axis.sizeth:  ") + str(x_axis.sizeth)).c_str());
+		(std::string("WIDTH:  ") + str(x_axis.sizeth)).c_str());
 	DrawText(x_axis.sizeth - 230 * x_axis.sizeth/x_axis.winsize,
 		y_axis.sizeth - 60 * y_axis.sizeth/y_axis.winsize,
-		(std::string("y_axis.sizeth: ") + str(y_axis.sizeth)).c_str());
+		(std::string("HEIGHT: ") + str(y_axis.sizeth)).c_str());
 
 	glColor3f(0.0f,1.0f,0.0f);
 	for(real_t i = 0; i < data.size(); ++i) {
