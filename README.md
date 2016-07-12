@@ -20,10 +20,6 @@ Takes a sequence of points from **stdin** and plots on a graph.
 
 Generates a sequence of points from a hardcoded function and plots on a graph.
 
-### State
-
-The two repositories, because they are made one from another, still share many common lines of code, which is a bad programming practice.
-
 ### Bugs / Errors
 
 For problems on compilation or runtime stage you are always welcome to raise an issue.
