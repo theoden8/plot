@@ -35,19 +35,18 @@ For problems on compilation or runtime stage you are always welcome to raise an 
 
 ### Compiling
 
-	cmake .
-	make
+	cmake . && make
 
 ## Usage
 
-	./_illustrator # (< file|<<EOF|<<<$(command)) stdin
+	./bin/illustrator # (< file|<<EOF|<<<$(command)) stdin
 	
 ----
-	
+
 	$EDITOR graph.cpp # edit calc functino and char *function (function name)
 	make
-	./_graph
+	./bin/graph
 
 ## Disclaimer
 
-Written in a quick-and-dirty way. Use at own risk.
+Written in a quick-and-dirty way. Use at own risk. Speed and convenience are the first priorities.
