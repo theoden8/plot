@@ -24,6 +24,10 @@ Plots a hardcoded function.
 
 For problems on compilation or runtime stage you are always welcome to raise an issue.
 
+### Contribution
+
+In case you have a good suggestion, you are always welcome to make a pull request.
+
 ## Installation
 
 ### Prerequisites
@@ -39,14 +43,14 @@ For problems on compilation or runtime stage you are always welcome to raise an 
 
 ## Usage
 
-	./bin/illustrator # (< file|<<EOF|<<<$(command)) stdin
+	./bin/illustrator # ( < file | <<EOF | <<< command ) stdin
 	
 ----
 
-	$EDITOR graph.cpp # edit calc functino and char *function (function name)
+	$EDITOR graph.cpp # edit calc function and char *function (function name) variable
 	make
 	./bin/graph
 
-## Disclaimer
+## Note
 
-Written in a quick-and-dirty way. Use at own risk. Speed and convenience are the first priorities.
+Use at own risk. Speed and convenience are the first priorities.
