@@ -1,6 +1,6 @@
 # Plot
 
-![Logo](./screenshots/screenshot.png =480x480)
+![Logo](./screenshots/screenshot.png)
 
 ## Authors
 
