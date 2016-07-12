@@ -8,17 +8,17 @@ Created by Kirill Rodriguez somewhen between 2014-2015.
 
 ### Purpose
 
-Visualization (tiny tool useful for mathematics / statistics).
+Tiny plotting utilities that are handy for visualising numbers and exploring mathematical functions.
 
 ### Description
 
 #### illustrator
 
-Takes a sequence of points from **stdin** and plots on a graph.
+Plots a sequence of points from **stdin**.
 
 #### graph
 
-Generates a sequence of points from a hardcoded function and plots on a graph.
+Plots a hardcoded function.
 
 ### Bugs / Errors
 
@@ -31,7 +31,7 @@ For problems on compilation or runtime stage you are always welcome to raise an 
 * cmake
 * make
 * gcc/clang
-* glut
+* GLUT
 
 ### Compiling
 
