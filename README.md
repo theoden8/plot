@@ -1,5 +1,7 @@
 # Plot
 
+![Logo](./screenshots/screenshot.png =480x480)
+
 ## Authors
 
 Created by Kirill Rodriguez somewhen between 2014-2015.
