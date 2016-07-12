@@ -8,7 +8,7 @@ Created by Kirill Rodriguez somewhen between 2014-2015.
 
 ### Purpose
 
-Visualization (own tiny mathematical toolchain).
+Visualization (tiny tool useful for mathematics / statistics).
 
 ### Description
 
@@ -22,11 +22,11 @@ Generates a sequence of points from a hardcoded function and plots on a graph.
 
 ### State
 
-Because it was formerly two repositories which shared many lines of code, they became one repository with 2 binaries, and during the code recomposition runtime viability of the program graph was lost.
+The two repositories, because they are made one from another, still share many common lines of code, which is a bad programming practice.
 
 ### Bugs / Errors
 
-For problems on compilation or runtime stage you are always welcome to raise an issue (in case the program is promised to work, but its not).
+For problems on compilation or runtime stage you are always welcome to raise an issue.
 
 ## Installation
 

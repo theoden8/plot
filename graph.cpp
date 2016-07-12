@@ -23,36 +23,54 @@ real_t calc(const real_t &x) {
 }
 
 void Display() {
-	if(!STEP)
+	if(STEP == .0) {
 		throw std::runtime_error("Step equals 0, can not perform the task.");
-	glLoadIdentity();				//Replace current matrix with the identity matrix.
-	glClear(GL_COLOR_BUFFER_BIT);			//Clear buffer to preset values.
-	glMatrixMode(GL_PROJECTION);			//Specify which matrix is the current matrix. main::options: GL_MODELVIEW GL_PROJECTION GL_TEXTURE.
-	glOrtho(0, width, 0, height, 1, -1);		//Multiply the current matrix with an orthographic matrix.
+	}
+	glLoadIdentity();                      //Replace current matrix with the identity matrix.
+	glClear(GL_COLOR_BUFFER_BIT);          //Clear buffer to preset values.
+	glMatrixMode(GL_PROJECTION);           //Specify which matrix is the current matrix. main::options: GL_MODELVIEW GL_PROJECTION GL_TEXTURE.
+	glOrtho(0, width, 0, height, 1, -1);   //Multiply the current matrix with an orthographic matrix.
 
-	glColor3f(0.7f,0.7f,1.0f);
+	glColor3f(0.7f, 0.7f, 1.0f);
 	DrawText(0.02 * width, 0.98 * height, function);
 
-	glColor3f(1.0f,0.7f,0.7f);
-	DrawText(0.02 * width, 0.95 * height, std::string("STEP == ", str(STEP)).c_str());
+	glColor3f(1.0f, 0.7f, 0.7f);
+	DrawText(0.02 * width, 0.95 * height, (std::string() + "STEP == " + str(STEP)).c_str());
 
-	glColor3f(0.0f,0.7f,0.7f);
-	DrawText(0.02 * width, 0.92 * height, std::string("WIDTH == ", str(width)).c_str());
-	DrawText(0.02 * width, 0.89 * height, std::string("HEIGHT == ", str(height)).c_str());
+	glColor3f(0.0f, 0.7f, 0.7f);
+	DrawText(0.02 * width, 0.92 * height, (std::string() + "WIDTH == " + str(width)).c_str());
+	DrawText(0.02 * width, 0.89 * height, (std::string() + "HEIGHT == " + str(height)).c_str());
 
-	glColor3f(1.0f,1.0f,0.0f);
-	DrawText(0.02 * width, 0.86 * height, (std::string("CENTER: (") + str(shift_x) + ", " + str(shift_y) + ")").c_str());
+	glColor3f(1.0f, 1.0f, 0.0f);
+	DrawText(0.02 * width, 0.86 * height, (std::string() + "CENTER: (" + str(shift_x) + ", " + str(shift_y) + ")").c_str());
 
-	glColor3f(0.0f,1.0f,0.0f);
-	for(real_t x = -width + shift_x; x <= width + shift_x; x += STEP) {
+	glColor3f(0.0f, 1.0f, 0.0f);
+	for(real_t x = -width/2. - shift_x; x <= width/2. + shift_x; x += STEP) {
 		real_t y = calc(x);
-		if(y > height/2 + shift_y
-		   || y < -height/2 - shift_y)
+		if(
+				y > height / 2. + shift_y
+			||
+				y < -height / 2. - shift_y
+		)
 		{
 			continue;
 		}
-		DrawDot(x, y, BOLD, BOLD);
+		else {
+			DrawDot(width / 2. + 2 * x - shift_x, height / 2. + 2 * y - shift_y, BOLD, BOLD);
+		}
 	}
+	/* for(real_t x = -width / 2. + shift_x; x <= width / 2. + shift_x; x += STEP) { */
+	/* 	real_t y = calc(x); */
+	/* 	if( */
+	/* 			y + shift_y < height / 2. */
+	/* 	   || */
+	/* 			y + shift_y > -height / 2. */
+	/* 	) */
+	/* 	{ */
+	/* 		continue; */
+	/* 	} */
+	/* 	DrawDot(x - shift_x, y - shift_y, BOLD, BOLD); */
+	/* } */
 
 	glColor3f(1.0f,1.0f,0.0f);
 
@@ -60,10 +78,10 @@ void Display() {
 	glPushMatrix();
 	glTranslatef(0, height/2 - shift_y, 0);
 	glBegin(GL_QUADS);
-		glVertex3f( 0,	+BOLD/2		, 0.0);
-		glVertex3f( 0,	-BOLD/2		, 0.0);
-		glVertex3f( width, -BOLD/2	, 0.0);
-		glVertex3f( width, +BOLD/2	, 0.0);
+		glVertex3f( 0,  +BOLD/2.    , 0.0);
+		glVertex3f( 0,  -BOLD/2.    , 0.0);
+		glVertex3f( width, -BOLD/2. , 0.0);
+		glVertex3f( width, +BOLD/2. , 0.0);
 	glEnd();
 	glPopMatrix();
 
@@ -71,10 +89,10 @@ void Display() {
 	glPushMatrix();
 	glTranslatef(width/2 - shift_x, 0, 0);
 	glBegin(GL_QUADS);
-		glVertex3f( -BOLD/2, 0		, 0.0);
-		glVertex3f( +BOLD/2, 0		, 0.0);
-		glVertex3f( +BOLD/2, height	, 0.0);
-		glVertex3f( -BOLD/2, height	, 0.0);
+		glVertex3f( -BOLD/2, 0      , 0.0);
+		glVertex3f( +BOLD/2, 0      , 0.0);
+		glVertex3f( +BOLD/2, height , 0.0);
+		glVertex3f( -BOLD/2, height , 0.0);
 	glEnd();
 	glPopMatrix();
 
@@ -174,7 +192,7 @@ int main(int argc, char **argv) {
 	glutInit(&argc, argv);		//Initialize the GLUT library.
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);	//Set the initial display mode.
 	glutInitWindowSize(size_x, size_y);
-	glutCreateWindow("grapher");
+	glutCreateWindow("graph");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -185,7 +203,6 @@ int main(int argc, char **argv) {
 	glutSpecialFunc(Special);
 
 	Display();
-
 	glutMainLoop();
 
 	return 0;

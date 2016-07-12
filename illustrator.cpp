@@ -47,8 +47,9 @@ inline void DrawPoint(real_t x, real_t y) {
 	x = 2 * x - x_axis.shift;
 	y = 2 * y - y_axis.shift;
 	if(
-		x < 0 || x >= x_axis.sizeth ||
-		y < 0 || y >= y_axis.sizeth
+			x < 0 || x >= x_axis.sizeth
+		||
+			y < 0 || y >= y_axis.sizeth
 	)
 	{
 		return;
@@ -60,7 +61,7 @@ void Display() {
 	glLoadIdentity();                                       //Replace current matrix with the identity matrix.
 	glClear(GL_COLOR_BUFFER_BIT);                           //Clear buffer to preset values.
 	glMatrixMode(GL_PROJECTION);                            //Specify which matrix is the current matrix. main::options: GL_MODELVIEW GL_PROJECTION GL_TEXTURE.
-	glOrtho(0, x_axis.sizeth, 0, y_axis.sizeth, 1, -1);                    //Multiply the current matrix with an orthographic matrix.
+	glOrtho(0, x_axis.sizeth, 0, y_axis.sizeth, 1, -1);     //Multiply the current matrix with an orthographic matrix.
 
 	glColor3f(0.8f,0.6f,0.0f);
 
