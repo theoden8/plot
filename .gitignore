@@ -1,6 +1,5 @@
-CMakeFiles
-CMakeCache.txt
-Makefile
-cmake_install.cmake
-_graph
-_illustrator
+/CMakeFiles
+/CMakeCache.txt
+/Makefile
+/cmake_install.cmake
+/bin

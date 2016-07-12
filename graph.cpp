@@ -1,12 +1,13 @@
 #include "glut_config.h"
 
+#include <cassert>
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
 #include <string>
 #include <cmath>
 
-#include "graphics.hpp""
+#include "graphics.hpp"
 
 real_t
 	STEP = 0.1;
@@ -18,9 +19,7 @@ real_t calc(const real_t &x) {
 }
 
 void Display() {
-	if(STEP == .0) {
-		throw std::runtime_error("Step equals 0, can not perform the task.");
-	}
+	assert(STEP != .0);
 	glLoadIdentity();                      //Replace current matrix with the identity matrix.
 	glClear(GL_COLOR_BUFFER_BIT);          //Clear buffer to preset values.
 	glMatrixMode(GL_PROJECTION);           //Specify which matrix is the current matrix. main::options: GL_MODELVIEW GL_PROJECTION GL_TEXTURE.
