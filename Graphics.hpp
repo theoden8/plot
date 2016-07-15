@@ -36,12 +36,12 @@ public:
 private:
 	static void Display();
 
-	//Graphics
+	//GraphicsDisplay
 	static void DisplayText(real_t x, real_t y, const char *str);
 	static void DisplayVariables();
 	static void DisplayAxis();
 
-	// separately here
+	//here
 	static inline void DisplayPoint(const real_t &x, const real_t &y) {
 		if(y > y_.sizeth / 2. + y_.shift ||
 				y < -y_.sizeth / 2. - y_.shift) {
@@ -66,7 +66,7 @@ private:
 	static void Keyboard(unsigned char key);
 	static void Special(int key, int x, int y);
 
-	//defined within project
+	//defined within a project
 	static void ExtendedDisplay();
 	static void ExtendedKeyboard(unsigned char key, int x, int y);
 };

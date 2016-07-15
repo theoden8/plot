@@ -6,8 +6,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "./bin")
 
 include_directories(.)
 
-add_executable(illustrator illustrator.cpp Graphics.cpp GraphicsFuncs.cpp)
-add_executable(graph graph.cpp Graphics.cpp GraphicsFuncs.cpp)
+add_executable(illustrator illustrator.cpp GraphicsDisplay.cpp GraphicsFuncs.cpp)
+add_executable(graph graph.cpp GraphicsDisplay.cpp GraphicsFuncs.cpp)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
