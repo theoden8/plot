@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
 
 project(_CPP_GLUT)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -Wno-deprecated")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "./bin")
 
 include_directories(.)
 
-add_executable(illustrator illustrator.cpp)
-add_executable(graph graph.cpp)
+add_executable(illustrator illustrator.cpp Graphics.cpp GraphicsFuncs.cpp)
+add_executable(graph graph.cpp Graphics.cpp GraphicsFuncs.cpp)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
