@@ -7,7 +7,7 @@
 
 #include "Graphics.hpp"
 
-real_t
+static real_t
 	STEP = 0.1;
 
 const char *function = "f(x) = log(x)";
@@ -18,20 +18,21 @@ real_t calc(const real_t &x) {
 
 void Graphics::ExtendedDisplay() {
 	glColor3f(0.7f, 0.7f, 1.0f);
-	DisplayText(0.02 * x_.sizeth, 0.98 * y_.sizeth, function);
+	DisplayText(0.02 * x_.gridsize, 0.98 * y_.gridsize, function);
 
 	glColor3f(1.0f, 0.7f, 0.7f);
-	DisplayText(0.02 * x_.sizeth, 0.95 * y_.sizeth, (std::string() + "STEP == " + str(STEP)).c_str());
+	DisplayText(0.02 * x_.gridsize, 0.95 * y_.gridsize, (std::string() + "STEP == " + str(STEP)).c_str());
 
 	glColor3f(0.0f, 1.0f, 0.0f);
 
 	assert(STEP != .0);
 	for(
-		real_t x = -x_.sizeth/2. - x_.shift;
-		x <= x_.sizeth/2. + x_.shift;
+		real_t x = -x_.gridsize / 2. - x_.shift;
+		x <= x_.gridsize / 2. + x_.shift;
 		x += STEP
 	)
 	{
+		printf("%lf %lf\n", x, calc(x));
 		DisplayPoint(x, calc(x));
 	}
 }
@@ -52,7 +53,7 @@ void Graphics::ExtendedKeyboard(unsigned char key, int x, int y) {
 		break;
 	}
 	Keyboard(key);
-	Display();
+	ExtendedDisplay();
 }
 
 int main(int argc, char **argv) {

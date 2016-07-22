@@ -8,8 +8,8 @@ axis
 	Graphics::y_(800, 3);
 
 void Graphics::InitOpenGL(int *argc, char **argv, const char *name) {
-	glutInit(argc, argv);									  //Initialize the GLUT library.
-	/* glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);  //Set the initial display mode. */
+	glutInit(argc, argv);                                       //Initialize the GLUT library.
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);  //Set the initial display mode.
 	glutInitWindowSize(x_.winsize, y_.winsize);
 	glutCreateWindow(name);
 
@@ -47,16 +47,16 @@ void Graphics::Keyboard(unsigned char key) {
 			exit(0);
 		break;
 		case 'm':
-			x_.sizeth	*= decrease;
-			y_.sizeth	*= decrease;
-			x_.shift	*= decrease;
-			y_.shift	*= decrease;
+			x_.gridsize *= decrease;
+			y_.gridsize *= decrease;
+			x_.shift    *= decrease;
+			y_.shift    *= decrease;
 		break;
 		case 'M':
-			x_.sizeth	*= increase;
-			y_.sizeth	*= increase;
-			x_.shift	*= increase;
-			y_.shift	*= increase;
+			x_.gridsize *= increase;
+			y_.gridsize *= increase;
+			x_.shift    *= increase;
+			y_.shift    *= increase;
 		break;
 		case 'b':
 			x_.thickness *= decrease;
@@ -67,20 +67,20 @@ void Graphics::Keyboard(unsigned char key) {
 			y_.thickness *= increase;
 		break;
 		case 't':
-			x_.sizeth	*= decrease;
-			x_.shift	*= decrease;
+			x_.gridsize *= decrease;
+			x_.shift    *= decrease;
 		break;
 		case 'T':
-			x_.sizeth	*= increase;
-			x_.shift	*= increase;
+			x_.gridsize *= increase;
+			x_.shift    *= increase;
 		break;
 		case 'y':
-			y_.sizeth	*= decrease;
-			y_.shift	*= decrease;
+			y_.gridsize *= decrease;
+			y_.shift    *= decrease;
 		break;
 		case 'Y':
-			y_.sizeth	*= increase;
-			y_.shift	*= increase;
+			y_.gridsize *= increase;
+			y_.shift    *= increase;
 		break;
 		case 'w':
 			y_.set_shift(+change);
