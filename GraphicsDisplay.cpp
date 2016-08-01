@@ -1,11 +1,7 @@
-#include <string>
+#include <stdio.h>
 #include "glut_config.h"
 
 #include "Graphics.hpp"
-
-typedef double real_t;
-
-#define str(x) std::to_string(x).c_str()
 
 
 void Graphics::Display() {
@@ -15,15 +11,20 @@ void Graphics::Display() {
 	glOrtho(0, x_.gridsize, 0, y_.gridsize, 1, -1);   //Multiply the current matrix with an orthographic matrix.
 
 	DisplayVariables();
-
-	ExtendedDisplay();
-
 	DisplayAxis();
+	ExtendedDisplay();
 
 	glutSwapBuffers();
 }
 
-void Graphics::DisplayText(real_t x, real_t y, const char *str) {
+void Graphics::DisplayText(real_t x, real_t y, const char *fmt, ...) {
+	static char str[1 << 6];
+
+	va_list args;
+	va_start(args, fmt);
+	vsprintf(str, fmt, args);
+	va_end(args);
+
 	glRasterPos2f(x, y);
 	for(const char *c = str; *c; ++c)
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
@@ -34,16 +35,18 @@ void Graphics::DisplayVariables() {
 	DisplayText(
 		x_.gridsize - 260 * x_.gridsize / x_.winsize,
 		y_.gridsize - 30 * y_.gridsize / y_.winsize,
-		(std::string("WIDTH:  ") + str(x_.gridsize)).c_str());
+		"WIDTH: %lf", x_.gridsize
+	);
 	DisplayText(
 		x_.gridsize - 260 * x_.gridsize/x_.winsize,
 		y_.gridsize - 60 * y_.gridsize/y_.winsize,
-		(std::string("HEIGHT: ") + str(y_.gridsize)).c_str());
+		"HEIGHT: %lf", y_.gridsize
+	);
 	glColor3f(1.0f, 1.0f, 0.0f);
 	DisplayText(
 		0.02 * x_.gridsize,
 		0.92 * y_.gridsize,
-		(std::string() + "CENTER: (" + str(x_.shift) + ", " + str(y_.shift) + ")").c_str()
+		"CENTER: (%lf, %lf)", x_.shift, y_.shift
 	);
 }
 

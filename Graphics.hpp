@@ -1,9 +1,11 @@
 #pragma once
 
+#include <stdarg.h>
+#include <complex>
 #include "glut_config.h"
 
-#define str(x) std::to_string(x).c_str()
 typedef double real_t;
+typedef std::complex <real_t> complex_t;
 
 struct axis {
 	real_t
@@ -31,6 +33,7 @@ public:
 };
 
 
+#include <stdio.h>
 class Graphics {
 	static axis x_, y_;
 public:
@@ -39,7 +42,7 @@ private:
 	static void Display();
 
 	//GraphicsDisplay
-	static void DisplayText(real_t x, real_t y, const char *str);
+	static void DisplayText(real_t x, real_t y, const char *fmt, ...);
 	static void DisplayVariables();
 	static void DisplayAxis();
 
@@ -49,17 +52,17 @@ private:
 				y < -y_.gridsize / 2. - y_.shift) {
 			return;
 		} else {
-			real_t x = x_.gridsize / 2. + 2 * x - x_.shift,
-				   y = y_.gridsize / 2. + 2 * y - y_.shift;
-			glPushMatrix();               //Push and pop the current matrix stack
-			glTranslatef(x, y, 0);        //Multiplies the current matrix by a translation matrix
-			glBegin(GL_QUADS);            //Delimit the verticles of a primitive or a group of like primitives
-				glVertex3f(  x_.bold(),  y_.bold(), 0.0);    //Specifies a vertex
-				glVertex3f(  x_.bold(), -y_.bold(), 0.0);    //Specifies a vertex
-				glVertex3f( -x_.bold(), -y_.bold(), 0.0);    //Specifies a vertex
-				glVertex3f( -x_.bold(),  y_.bold(), 0.0);    //Specifies a vertex
+			real_t xx = x_.gridsize / 2. + 2. * x - x_.shift,
+				   yy = y_.gridsize / 2. + 2. * y - y_.shift;
+			glPushMatrix();                                  //Push the current matrix stack
+			glTranslatef(xx, yy, 0);                           //Multiplies the current matrix by a translation matrix
+			glBegin(GL_QUADS);                               //Delimit the verticles of a primitive or a group of like primitives
+			glVertex3f(  x_.bold(),  y_.bold(), 0.0);        //Specifies a vertex for GL_QUAD
+			glVertex3f(  x_.bold(), -y_.bold(), 0.0);
+			glVertex3f( -x_.bold(), -y_.bold(), 0.0);
+			glVertex3f( -x_.bold(),  y_.bold(), 0.0);
 			glEnd();
-			glPopMatrix();
+			glPopMatrix();                                   //Pop the current matrix stack
 		}
 	}
 

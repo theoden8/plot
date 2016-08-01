@@ -2,7 +2,6 @@
 
 #include <cassert>
 #include <vector>
-#include <string>
 #include <cmath>
 
 #include "Graphics.hpp"
@@ -10,30 +9,34 @@
 static real_t
 	STEP = 0.1;
 
-const char *function = "f(x) = log(x)";
-real_t calc(const real_t &x) {
-	real_t y = log(x);
-	return y;
-}
+#define PLOTFUNC(x) log(x)
+#define STRFY(x) #x
+#define TOSTR(x) STRFY(x)
 
 void Graphics::ExtendedDisplay() {
 	glColor3f(0.7f, 0.7f, 1.0f);
-	DisplayText(0.02 * x_.gridsize, 0.98 * y_.gridsize, function);
+	DisplayText(
+		0.02 * x_.gridsize, 0.98 * y_.gridsize,
+		"f(x) = " TOSTR(PLOTFUNC(x))
+	);
 
 	glColor3f(1.0f, 0.7f, 0.7f);
-	DisplayText(0.02 * x_.gridsize, 0.95 * y_.gridsize, (std::string() + "STEP == " + str(STEP)).c_str());
+	DisplayText(
+		0.02 * x_.gridsize, 0.95 * y_.gridsize,
+		"STEP == %lf", STEP
+	);
+
+	if(STEP == 0.)
+		return;
 
 	glColor3f(0.0f, 1.0f, 0.0f);
-
-	assert(STEP != .0);
 	for(
 		real_t x = -x_.gridsize / 2. - x_.shift;
 		x <= x_.gridsize / 2. + x_.shift;
 		x += STEP
 	)
 	{
-		printf("%lf %lf\n", x, calc(x));
-		DisplayPoint(x, calc(x));
+		DisplayPoint(x, PLOTFUNC(x));
 	}
 }
 
@@ -53,7 +56,7 @@ void Graphics::ExtendedKeyboard(unsigned char key, int x, int y) {
 		break;
 	}
 	Keyboard(key);
-	ExtendedDisplay();
+	Display();
 }
 
 int main(int argc, char **argv) {

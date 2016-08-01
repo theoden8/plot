@@ -9,7 +9,7 @@ axis
 
 void Graphics::InitOpenGL(int *argc, char **argv, const char *name) {
 	glutInit(argc, argv);                                       //Initialize the GLUT library.
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);  //Set the initial display mode.
+	/* glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);  //Set the initial display mode. */
 	glutInitWindowSize(x_.winsize, y_.winsize);
 	glutCreateWindow(name);
 
@@ -20,8 +20,6 @@ void Graphics::InitOpenGL(int *argc, char **argv, const char *name) {
 	glutReshapeFunc(Reshape);
 	glutKeyboardFunc(ExtendedKeyboard);
 	glutSpecialFunc(Special);
-
-	Display();
 
 	glutMainLoop();
 }

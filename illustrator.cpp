@@ -1,7 +1,7 @@
-#include "glut_config.h"
-
 #include <cstdio>
 #include <vector>
+
+#include "glut_config.h"
 
 #include "Graphics.hpp"
 
@@ -19,15 +19,13 @@ void Graphics::ExtendedKeyboard(unsigned char key, int x, int y) {
 }
 
 
-void FillData(std::vector <real_t> &data) {
-	real_t value;
-	while(scanf("%lf", &value))
+void read_data(std::vector <real_t> &data) {
+	static real_t value;
+	while(scanf(" %lf", &value) != EOF)
 		data.push_back(value);
 }
 
 int main(int argc, char **argv) {
-	FillData(data);
+	read_data(data);
 	Graphics::InitOpenGL(&argc, argv, "illustrator");
-
-    return 0;
 }
