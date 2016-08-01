@@ -30,6 +30,6 @@ for(my $yy = $max_iters / 4.; $yy < $max_iters * 3./4; ++$yy) {
 			++$i;
 		}
 
-		print "$xx $yy\n" unless($i >= $max_iters);
+		print "$xx $yy\n" if($i >= $max_iters);
 	}
 }
