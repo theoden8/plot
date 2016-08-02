@@ -13,7 +13,6 @@ sub pixel_is_filled {
 
 	while($x > 0 || $y > 0) {
 		if($x % 3 == 1 && $y % 3 == 1) {
-			print "$x $y\n";
 			return 1;
 		}
 		$x = int($x / 3);
