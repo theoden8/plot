@@ -23,6 +23,7 @@ for(my $yy = $max_iters / 4.; $yy < $max_iters * 3./4; ++$yy) {
 		my ($real, $imag) = (c_cast($xx), c_cast($yy));
 
 		my ($x, $y, $i) = (0., 0., 0);
+
 		while(sqr($x) + sqr($y) <= 4 && $i < $max_iters) {
 			my $new_x = sqr($x) - sqr($y) + $real;
 			$y = 2. * $x * $y + $imag;

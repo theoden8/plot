@@ -48,12 +48,12 @@ private:
 
 	//here
 	static inline void DisplayPoint(const real_t &x, const real_t &y) {
-		if(y > y_.gridsize / 2. + y_.shift ||
-				y < -y_.gridsize / 2. - y_.shift) {
+		if(y < -y_.gridsize / 2. + y_.shift ||
+				y > y_.gridsize / 2. + y_.shift) {
 			return;
 		} else {
-			real_t xx = x_.gridsize / 2. + 2. * x - x_.shift,
-				   yy = y_.gridsize / 2. + 2. * y - y_.shift;
+			real_t xx = x_.gridsize / 2. + x - x_.shift,
+				   yy = y_.gridsize / 2. + y - y_.shift;
 			glPushMatrix();                                  //Push the current matrix stack
 			glTranslatef(xx, yy, 0);                           //Multiplies the current matrix by a translation matrix
 			glBegin(GL_QUADS);                               //Delimit the verticles of a primitive or a group of like primitives
