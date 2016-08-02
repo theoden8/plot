@@ -18,9 +18,21 @@ Tiny plotting utilities that are handy for visualising numbers and exploring mat
 
 Plots a sequence of points from **stdin**.
 
+#### complex_in
+
+Plots a sequence of set numbers (from **stdin**) on complex plane.
+
 #### graph
 
 Plots a hardcoded function.
+
+#### graph_i
+
+Plots **f(z)** on complex plane where **z** is a complex number. It might behave weirdly because $$f(z) \in{G} \not\rightarrow z \in{G}$$ where **G** is the grid. 
+
+#### gen/
+
+The gen/ folder contains various generators, such as of mandelbrot set, prime numbers etc. Those are to be piped to `illustrator` or `complex_in` programs for plotting as they are written to produce input following the necessary format.
 
 ### Bugs / Errors
 
