@@ -1,7 +1,5 @@
 # Plot
 
-![Logo](./screenshots/screenshot.png)
-
 ## Authors
 
 Created by Kirill Rodriguez somewhen between 2014-2015.
@@ -14,9 +12,19 @@ Tiny plotting utilities that are handy for visualising numbers and exploring mat
 
 ### Description
 
+#### plot_fractal
+
+Plots a fractal. Use `hjkl-=mM` to scale the view and the fractal itself.
+
+Below is obtained illustration of mandelbrot set:
+
+![fractal](./screenshots/mandelbrot.png)
+
 #### illustrator
 
-Plots a sequence of points from **stdin**.
+![illustrator_prime_number_theorem](./screenshots/illustrator.png)
+
+Plots a sequence of points from **stdin** (above: prime number theorem illustration: `(pi(x) / (x / log(x)) - 1`, squeezed in width).
 
 #### complex_in
 
@@ -24,19 +32,17 @@ Plots a sequence of set numbers (from **stdin**) on complex plane.
 
 #### graph
 
-Plots a hardcoded function.
+![graph](./screenshots/graph.png)
+
+Plots a hardcoded function (above: `log(n)`)
 
 #### graph_i
 
 Plots **f(z)** on complex plane where **z** is a complex number. It might behave weirdly because $$f(z) \in{G} \not\rightarrow z \in{G}$$ where **G** is the grid. 
 
-#### plot_fractal
-
-Plots a fractal. Use `hjkl-=mM` to scale the view and the fractal itself.
-
 #### gen/
 
-The gen/ folder contains various generators, such as of mandelbrot set, prime numbers etc. Those are to be piped to `illustrator` or `complex_in` programs for plotting as they are written to produce input following the necessary format.
+The gen/ folder contains various generators, such as of some kinds of fractals, prime numbers etc. Those are to be piped to `illustrator` or `complex_in` programs for plotting as they are written to produce input following the necessary format.
 
 ### Bugs / Errors
 
