@@ -10,6 +10,7 @@ add_executable(illustrator illustrator.cpp GraphicsDisplay.cpp GraphicsFuncs.cpp
 add_executable(complex_in complex_in.cpp GraphicsDisplay.cpp GraphicsFuncs.cpp)
 add_executable(graph graph.cpp GraphicsDisplay.cpp GraphicsFuncs.cpp)
 add_executable(graph_i graph_i.cpp GraphicsDisplay.cpp GraphicsFuncs.cpp)
+add_executable(plot_fractal plot_fractal.cpp GraphicsDisplay.cpp GraphicsFuncs.cpp Fractal.cpp)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
@@ -18,3 +19,4 @@ target_link_libraries( illustrator ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )
 target_link_libraries( complex_in ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )
 target_link_libraries( graph ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )
 target_link_libraries( graph_i ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )
+target_link_libraries( plot_fractal ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )

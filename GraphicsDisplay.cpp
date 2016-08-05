@@ -7,7 +7,7 @@
 void Graphics::Display() {
 	glLoadIdentity();                                 //Replace current matrix with the identity matrix.
 	glClear(GL_COLOR_BUFFER_BIT);                     //Clear buffer to preset values.
-	glMatrixMode(GL_PROJECTION);                      //Specify which matrix is the current matrix. main::options: GL_MODELVIEW GL_PROJECTION GL_TEXTURE.
+	/* glMatrixMode(GL_PROJECTION);                      //Specify which matrix is the current matrix. main::options: GL_MODELVIEW GL_PROJECTION GL_TEXTURE. */
 	glOrtho(0, x_.gridsize, 0, y_.gridsize, 1, -1);   //Multiply the current matrix with an orthographic matrix.
 
 	DisplayVariables();

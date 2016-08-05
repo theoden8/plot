@@ -8,7 +8,7 @@ axis
 	Graphics::y_(800, 3);
 
 void Graphics::InitOpenGL(int *argc, char **argv, const char *name) {
-	glutInit(argc, argv);                                       //Initialize the GLUT library.
+	glutInit(argc, argv);									   //Initialize the GLUT library.
 	/* glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);  //Set the initial display mode. */
 	glutInitWindowSize(x_.winsize, y_.winsize);
 	glutCreateWindow(name);
@@ -45,16 +45,16 @@ void Graphics::Keyboard(unsigned char key) {
 			exit(0);
 		break;
 		case 'm':
-			x_.gridsize *= decrease;
-			y_.gridsize *= decrease;
-			x_.shift    *= decrease;
-			y_.shift    *= decrease;
+			x_.set_grid(decrease);
+			y_.set_grid(decrease);
+			/* x_.set_shift(decrease); */
+			/* y_.set_shift(decrease); */
 		break;
 		case 'M':
-			x_.gridsize *= increase;
-			y_.gridsize *= increase;
-			x_.shift    *= increase;
-			y_.shift    *= increase;
+			x_.set_grid(increase);
+			y_.set_grid(increase);
+			/* x_.set_shift(increase); */
+			/* y_.set_shift(increase); */
 		break;
 		case 'b':
 			x_.thickness *= decrease;
@@ -65,32 +65,32 @@ void Graphics::Keyboard(unsigned char key) {
 			y_.thickness *= increase;
 		break;
 		case 't':
-			x_.gridsize *= decrease;
-			x_.shift    *= decrease;
+			x_.set_grid(decrease);
+			x_.set_shift(decrease);
 		break;
 		case 'T':
-			x_.gridsize *= increase;
-			x_.shift    *= increase;
+			x_.set_grid(increase);
+			x_.set_shift(increase);
 		break;
 		case 'y':
-			y_.gridsize *= decrease;
-			y_.shift    *= decrease;
+			y_.set_grid(decrease);
+			y_.set_shift(decrease);
 		break;
 		case 'Y':
-			y_.gridsize *= increase;
-			y_.shift    *= increase;
+			y_.set_grid(increase);
+			y_.set_shift(increase);
 		break;
 		case 'w':
-			y_.set_shift(+change);
+			y_.set_shift(increase);
 		break;
 		case 's':
-			y_.set_shift(-change);
+			y_.set_shift(decrease);
 		break;
 		case 'a':
-			x_.set_shift(-change);
+			x_.set_shift(decrease);
 		break;
 		case 'd':
-			x_.set_shift(+change);
+			x_.set_shift(increase);
 		break;
 	}
 }

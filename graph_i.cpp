@@ -7,7 +7,7 @@
 #include "Graphics.hpp"
 
 static complex_t
-	g_step(100., 100.);
+	g_step(1., 1.);
 
 #define PLOTFUNC(z) exp(z)
 #define STRFY(x) #x
@@ -31,14 +31,14 @@ void Graphics::ExtendedDisplay() {
 
 	glColor3f(0.0f, 1.0f, 0.0f);
 	for(
-		real_t x = -x_.gridsize / 2. + x_.shift;
-		x <= x_.gridsize / 2. + x_.shift;
+		real_t x = x_.lborder;
+		x <= x_.rborder;
 		x += g_step.real()
 	)
 	{
 		for(
-			real_t y = -y_.gridsize / 2. + y_.shift;
-			y <= y_.gridsize / 2. + y_.shift;
+			real_t y = y_.lborder;
+			y <= y_.rborder;
 			y += g_step.imag()
 		)
 		{

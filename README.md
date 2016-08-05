@@ -30,6 +30,10 @@ Plots a hardcoded function.
 
 Plots **f(z)** on complex plane where **z** is a complex number. It might behave weirdly because $$f(z) \in{G} \not\rightarrow z \in{G}$$ where **G** is the grid. 
 
+#### plot_fractal
+
+Plots a fractal. Use `hjkl-=mM` to scale the view and the fractal itself.
+
 #### gen/
 
 The gen/ folder contains various generators, such as of mandelbrot set, prime numbers etc. Those are to be piped to `illustrator` or `complex_in` programs for plotting as they are written to produce input following the necessary format.
