@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <vector>
 #include "glut_config.h"
 
 #include "Types.hpp"
@@ -8,9 +9,24 @@
 
 typedef Graphics G;
 
+#define X G::x()
+#define Y G::y()
+
+
 #define FRACTAL(NAME) class NAME : public Fractal
 class Fractal {
-	int level_ = 3;
+	int level_ = 1;
+protected:
+	real_t step = 50., width = X.rborder / step, height = Y.rborder / step;
+
+	void change_step(real_t diff) {
+		real_t
+			act_w = width * step,
+			act_h = height * step;
+		step *= diff;
+		width = act_w / step;
+		height = act_h / step;
+	}
 public:
 	Fractal() {}
 	~Fractal() {}
@@ -23,39 +39,16 @@ public:
 		return level_;
 	}
 
-	void incr() {
-		++level_;
-	}
-
-	void decr() {
-		--level_;
-	}
-};
-
-#define X Graphics::x()
-#define Y Graphics::y()
-
-#define DISCRETE(NAME) class NAME : public FractalIterDiscrete
-FRACTAL(FractalIterDiscrete) {
-protected:
-	int step = 50, width = (int)X.gridsize >> 1, height = (int)Y.gridsize >> 1;
-
-	bool in_plot(int x, int y) {
-		return (x >= X.lborder && x <= X.rborder && y >= Y.lborder && y <= Y.rborder);
-	}
-public:
 	virtual void Keyboard(char key) {
-		static float
+		static real_t
 			increase = 1.05,
 			decrease = 1/increase;
 		switch(key) {
 			case '-':
-				step = step * decrease;
-				if(!step)
-					step = 1;
+				change_step(decrease);
 			break;
 			case '=':
-				step = step * increase + 1;
+				change_step(increase);
 			break;
 			case 'h':
 				width *= decrease;
@@ -69,8 +62,27 @@ public:
 			case 'l':
 				width = width * increase + 1;
 			break;
+
+			case '0':
+				if(level_)
+					--level_;
+			break;
+			case '9':
+				++level_;
+			break;
 		}
 	}
+};
+
+#define DISCRETE(NAME) class NAME : public FractalIterDiscrete
+FRACTAL(FractalIterDiscrete) {
+protected:
+	bool in_plot(int x, int y) {
+		x *= step;
+		y *= step;
+		return (x >= X.lborder && x <= X.rborder && y >= Y.lborder && y <= Y.rborder);
+	}
+public:
 };
 
 DISCRETE(MandelbrotSet) {
@@ -78,9 +90,35 @@ public:
 	void FRACTAL_DRAW;
 };
 
-DISCRETE(SierpinskyCarpet) {
-	static bool pixel_is_filled(int x, int y);
+DISCRETE(SierpinskiCarpet) {
+	static bool point_is_colored(int x, int y);
 
+public:
+	void FRACTAL_DRAW;
+};
+
+DISCRETE(SierpinskiTriangle) {
+	static bool point_is_colored(int x, int y);
+
+public:
+	void FRACTAL_DRAW;
+};
+
+
+FRACTAL(KochsFlake) {
+protected:
+	typedef std::pair <complex_t, complex_t> line_t;
+	std::vector <line_t> lines_ = {};
+	int last_level = 0;
+	real_t last_size = -1;
+
+	real_t size() const;
+	void reset();
+	void increase_level();
+	bool in_plot(complex_t z) {
+		real_t x = z.real(), y = z.imag();
+		return (x >= X.lborder && x <= X.rborder && y >= Y.lborder && y <= Y.rborder);
+	}
 public:
 	void FRACTAL_DRAW;
 };

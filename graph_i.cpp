@@ -24,7 +24,7 @@ void Graphics::ExtendedDisplay() {
 		"g_step == (%lf, %lf)", g_step.real(), g_step.imag()
 	);
 
-	if(g_step == 0.)
+	if(std::abs(g_step - complex_t(0., 0.)) < .0000001)
 		return;
 
 	glColor3f(0.0f, 1.0f, 0.0f);
