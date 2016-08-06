@@ -1,5 +1,3 @@
-#include "glut_config.h"
-
 #include <cassert>
 #include <vector>
 #include <cmath>

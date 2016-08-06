@@ -1,4 +1,4 @@
-CFLAGS = -O3 -std=c99 -Wno-implicit-int
+CFLAGS = -O3 -std=c99 -Wno-implicit-int -lm -lc
 OBJECTS = $(wildcard *.c)
 
 all: $(patsubst %.c, %, $(OBJECTS))

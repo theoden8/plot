@@ -1,8 +1,6 @@
 #include <cstdio>
 #include <vector>
 
-#include "glut_config.h"
-
 #include "Graphics.hpp"
 
 std::vector <real_t> data;
