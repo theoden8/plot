@@ -4,47 +4,7 @@
 #include "glut_config.h"
 
 #include "Types.hpp"
-
-struct axis {
-	real_t
-		winsize,
-		gridsize,
-		shift,
-		thickness;
-	real_t
-		lborder,
-		rborder;
-private:
-	void reborder() {
-		lborder = -gridsize / 2. + shift;
-		rborder = gridsize / 2. + shift;
-	}
-public:
-	axis(real_t winsize, real_t thickness, real_t shift = 0.):
-		winsize(winsize), gridsize(winsize * 4), thickness(thickness), shift(shift),
-		lborder(-gridsize/2. + shift), rborder(gridsize/2. + shift)
-	{}
-
-	real_t bold() const {
-		return thickness * gridsize / winsize;
-	}
-
-	void set_grid(real_t diff) {
-		gridsize *= diff;
-		reborder();
-	}
-
-	void set_shift(real_t diff) {
-		shift += gridsize * (diff - 1);
-		reborder();
-	}
-
-	void set_size(real_t newsize) {
-		set_grid(newsize / winsize);
-		winsize = newsize;
-	}
-};
-
+#include "Axis.hpp"
 
 #include <stdio.h>
 class Graphics {
@@ -61,17 +21,22 @@ private:
 	static void DisplayVariables();
 	static void DisplayAxis();
 
+public:
+	#define G_COLOR(R, G, B) glColor3f(R, G, B)
 	//here
 	static inline void DisplayPoint(const real_t &x, const real_t &y) {
+		/* static real_t prev_x = x, prev_y = y; */
 		if(
-			y < y_.lborder
-			|| y > y_.rborder
-			|| x < x_.lborder
-			|| x > x_.rborder
+			!y_.in_grid(y)
+			|| !x_.in_grid(x)
+			/* || std::abs(x - prev_x) <= x_.bold() */
+			/* || std::abs(y - prev_y) <= y_.bold() */
 		)
 		{
 			return;
 		} else {
+			/* prev_x = x; */
+			/* prev_y = y; */
 			real_t xx = x - x_.lborder,
 				   yy = y - y_.lborder;
 			glPushMatrix();                                  //Push the current matrix stack
@@ -86,6 +51,21 @@ private:
 		}
 	}
 
+	static inline void DisplayLine(const complex_t &start, const complex_t &fin, const real_t &step) {
+		const complex_t
+			diff = fin - start;
+		const real_t
+			deg = std::arg(diff),
+			len = std::abs(diff);
+		const complex_t
+			u_step(step * cos(deg), step * sin(deg));
+
+		for(complex_t i = complex_t(0.); std::abs(i) < len; i += u_step) {
+			const complex_t point = start + i;
+			DisplayPoint(point.real(), point.imag());
+		}
+	}
+private:
 	//GraphicsFuncs
 	static void Reshape(int new_size_x, int new_size_y);
 	static void Keyboard(unsigned char key);

@@ -4,13 +4,16 @@ project(plot)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -Wno-deprecated")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "./bin")
 
-include_directories(.)
+include_directories(. graphics fractals)
 
-add_executable(illustrator illustrator.cpp GraphicsDisplay.cpp GraphicsFuncs.cpp)
-add_executable(complex_in complex_in.cpp GraphicsDisplay.cpp GraphicsFuncs.cpp)
-add_executable(graph graph.cpp GraphicsDisplay.cpp GraphicsFuncs.cpp)
-add_executable(graph_i graph_i.cpp GraphicsDisplay.cpp GraphicsFuncs.cpp)
-add_executable(plot_fractal plot_fractal.cpp GraphicsDisplay.cpp GraphicsFuncs.cpp Fractal.cpp)
+file(GLOB SRC_GRAPHICS graphics/*.cpp)
+file(GLOB SRC_FRACTALS fractals/*.cpp)
+
+add_executable(illustrator illustrator.cpp ${SRC_GRAPHICS})
+add_executable(complex_in complex_in.cpp ${SRC_GRAPHICS})
+add_executable(graph graph.cpp ${SRC_GRAPHICS})
+add_executable(graph_i graph_i.cpp ${SRC_GRAPHICS})
+add_executable(plot_fractal plot_fractal.cpp ${SRC_GRAPHICS} ${SRC_FRACTALS})
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)

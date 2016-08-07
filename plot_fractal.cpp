@@ -3,30 +3,28 @@
 #include <cmath>
 
 #include "Graphics.hpp"
-#include "Fractal.hpp"
+
+#include "FractalIterDiscrete.hpp"
+#include "FractalIterLine.hpp"
 
 #define STRFY(x) #x
 #define TOSTR(x) STRFY(x)
 
 #define PLOTFRACTAL KochsFlake
 
-PLOTFRACTAL g_fractal;
+PLOTFRACTAL g_fractal = PLOTFRACTAL();
 
 void Graphics::ExtendedDisplay() {
-	glColor3f(0.0f, 1.0f, 0.0f);
-	static const auto per_point = [](complex_t z, float r, float g, float b) {
-		glColor3f(r, g, b);
-		DisplayPoint(z.real(), z.imag());
-	};
-	g_fractal.Draw(per_point);
+	G_COLOR(.0, 1., .0);
+	g_fractal.Draw();
 
-	glColor3f(0.7f, 0.7f, 1.0f);
+	G_COLOR(.7, .7, 1.);
 	DisplayText(
 		0.02 * x_.gridsize, 0.98 * y_.gridsize,
 		"Fractal: " TOSTR(PLOTFRACTAL)
 	);
 
-	glColor3f(0.0f, 1.7f, 0.7f);
+	G_COLOR(.0, .7, .7);
 	DisplayText(
 		0.02 * x_.gridsize, 0.95 * y_.gridsize,
 		"level == %d", g_fractal.level()
@@ -40,6 +38,5 @@ void Graphics::ExtendedKeyboard(unsigned char key, int x, int y) {
 }
 
 int main(int argc, char *argv[]) {
-	g_fractal = PLOTFRACTAL();
 	Graphics::InitOpenGL(&argc, argv, "plot_fractal");
 }

@@ -4,12 +4,14 @@
 #include "Graphics.hpp"
 
 axis
-	Graphics::x_(800, 3),
-	Graphics::y_(800, 3);
+	Graphics::x_(800., 3),
+	Graphics::y_(800., 3);
 
 void Graphics::InitOpenGL(int *argc, char **argv, const char *name) {
-	glutInit(argc, argv);									   //Initialize the GLUT library.
-	/* glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);  //Set the initial display mode. */
+	// Initialize the GLUT library.
+	glutInit(argc, argv);
+	// Set the initial display mode.
+	/* glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH); */
 	glutInitWindowSize(x_.winsize, y_.winsize);
 	glutCreateWindow(name);
 
