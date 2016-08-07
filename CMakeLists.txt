@@ -8,12 +8,13 @@ include_directories(. graphics fractals)
 
 file(GLOB SRC_GRAPHICS graphics/*.cpp)
 file(GLOB SRC_FRACTALS fractals/*.cpp)
+set(SRC_MATH Functions.cpp)
 
 add_executable(illustrator illustrator.cpp ${SRC_GRAPHICS})
 add_executable(complex_in complex_in.cpp ${SRC_GRAPHICS})
-add_executable(graph graph.cpp ${SRC_GRAPHICS})
-add_executable(graph_i graph_i.cpp ${SRC_GRAPHICS})
-add_executable(plot_fractal plot_fractal.cpp ${SRC_GRAPHICS} ${SRC_FRACTALS})
+add_executable(graph graph.cpp ${SRC_GRAPHICS} ${SRC_MATH})
+add_executable(graph_i graph_i.cpp ${SRC_GRAPHICS} ${SRC_MATH})
+add_executable(plot_fractal plot_fractal.cpp ${SRC_GRAPHICS} ${SRC_FRACTALS} ${SRC_MATH})
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)

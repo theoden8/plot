@@ -30,5 +30,5 @@ void axis::set_size(real_t newsize) {
 }
 
 bool axis::in_grid(const real_t &val) const {
-	return lborder <= val && val <= rborder;
+	return lborder < val && val < rborder;
 }

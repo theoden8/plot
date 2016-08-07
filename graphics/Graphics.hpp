@@ -22,13 +22,12 @@ private:
 	static void DisplayAxis();
 
 public:
-	#define G_COLOR(R, G, B) glColor3f(R, G, B)
-	//here
+	#define RGB_COLOR(R, G, B) glColor3f(R, G, B)
 	static inline void DisplayPoint(const real_t &x, const real_t &y) {
 		/* static real_t prev_x = x, prev_y = y; */
 		if(
-			!y_.in_grid(y)
-			|| !x_.in_grid(x)
+			!x_.in_grid(x)
+			|| !y_.in_grid(y)
 			/* || std::abs(x - prev_x) <= x_.bold() */
 			/* || std::abs(y - prev_y) <= y_.bold() */
 		)

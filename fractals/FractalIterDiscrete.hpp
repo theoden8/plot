@@ -9,7 +9,7 @@ public:
 };
 
 
-DISCRETE(MandelbrotSet) {
+DISCRETE(JuliaSet) {
 public:
 	void Draw();
 };

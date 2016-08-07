@@ -26,3 +26,9 @@ LINEAR(KochsFlake) {
 public:
 	void Draw();
 };
+
+
+FRACTAL(DragonCurve) {
+public:
+	void Draw();
+};

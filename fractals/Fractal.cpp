@@ -12,8 +12,8 @@ void Fractal::change_step(const real_t &diff) {
 		act_w = width * step,
 		act_h = height * step;
 	step *= diff;
-	width = act_w / step;
-	height = act_h / step;
+	/* width = act_w / step; */
+	/* height = act_h / step; */
 }
 
 

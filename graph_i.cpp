@@ -2,12 +2,14 @@
 #include <vector>
 #include <cmath>
 
+#include "Functions.hpp"
+
 #include "Graphics.hpp"
 
 static complex_t
 	g_step(1., 1.);
 
-#define PLOTFUNC(z) exp(z)
+#define PLOTFUNC(z) zriemann(z, 10)
 #define STRFY(x) #x
 #define TOSTR(x) STRFY(x)
 

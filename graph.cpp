@@ -3,22 +3,23 @@
 #include <cmath>
 
 #include "Graphics.hpp"
+#include "Functions.hpp"
 
 static real_t
 	g_step = 0.1;
 
-#define PLOTFUNC(x) exp(x)
+#define PLOTFUNC(x) sinh(x)
 #define STRFY(x) #x
 #define TOSTR(x) STRFY(x)
 
 void Graphics::ExtendedDisplay() {
-	glColor3f(0.7f, 0.7f, 1.0f);
+	RGB_COLOR(0.7f, 0.7f, 1.0f);
 	DisplayText(
 		0.02 * x_.gridsize, 0.98 * y_.gridsize,
 		"f(x) = " TOSTR(PLOTFUNC(x))
 	);
 
-	glColor3f(1.0f, 0.7f, 0.7f);
+	RGB_COLOR(1.0f, 0.7f, 0.7f);
 	DisplayText(
 		0.02 * x_.gridsize, 0.95 * y_.gridsize,
 		"g_step == %lf", g_step
@@ -27,7 +28,7 @@ void Graphics::ExtendedDisplay() {
 	if(g_step == 0.)
 		return;
 
-	glColor3f(0.0f, 1.0f, 0.0f);
+	RGB_COLOR(0.0f, 1.0f, 0.0f);
 	for(
 		real_t x = x_.lborder;
 		x <= x_.rborder;
