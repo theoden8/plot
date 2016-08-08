@@ -40,11 +40,17 @@ Plots a hardcoded function (above: `log(n)`)
 
 #### graph_i
 
-Plots **f(z)** on complex plane where **z** is a complex number. It might behave weirdly because $$f(z) \in{G} \not\rightarrow z \in{G}$$ where **G** is the grid.
+Plots **f(z)** on complex plane where **z** is a complex number with a color depending on `z`. 
 
-However, it still can give kind of understanding of function behaviour. Below is `cos(z) + sin(z)`:
+As you can see, below is `sinh(cos(z))`:
 
 ![graph_i](./screenshots/graph_i.png)
+
+##### Notes
+
+Above everything this program is not very accurate because $$f(z) \in{G} \not\rightarrow z \in{G}$$ where **G** is the grid.
+
+Also, the implementation with `GLUT` and too many abstract layers can not be normally considered efficient, but it is enough to see something at least.
 
 #### gen/
 
