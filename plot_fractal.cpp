@@ -11,7 +11,7 @@
 #define STRFY(x) #x
 #define TOSTR(x) STRFY(x)
 
-#define PLOTFRACTAL KochsSnowFlake
+#define PLOTFRACTAL JuliaSet
 
 PLOTFRACTAL g_fractal = PLOTFRACTAL();
 

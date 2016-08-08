@@ -8,7 +8,7 @@
 static complex_t
 	g_step(1., 1.);
 
-#define PLOTFUNC(z) zriemann(z, 10)
+#define PLOTFUNC(z) (sin(z) + cos(z))
 #define STRFY(x) #x
 #define TOSTR(x) STRFY(x)
 
