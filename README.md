@@ -8,7 +8,7 @@ Created by Kirill Rodriguez somewhen between 2014-2015.
 
 ### Purpose
 
-Tiny plotting utilities that are handy for visualising numbers and exploring mathematical functions.
+The whole program is a small mathematical playground visualising sequences, fractals, functions etc.
 
 ### Description
 
@@ -16,9 +16,11 @@ Tiny plotting utilities that are handy for visualising numbers and exploring mat
 
 Plots a fractal. Use `hjkl-=mM` to scale the view and the fractal itself.
 
-Below is obtained illustration of mandelbrot set:
+Below is obtained illustration of mandelbrot set (aka **Julia set** with `F(z, c) = z * z + c`):
 
 ![fractal](./screenshots/mandelbrot.png)
+
+Some other fractals and, in particular, **Julia sets** are also available (try, for example, `f(z, c) = sin(z) + c`.
 
 #### illustrator
 
@@ -38,7 +40,7 @@ Plots a hardcoded function (above: `log(n)`)
 
 #### graph_i
 
-Plots **f(z)** on complex plane where **z** is a complex number. It might behave weirdly because $$f(z) \in{G} \not\rightarrow z \in{G}$$ where **G** is the grid. 
+Plots **f(z)** on complex plane where **z** is a complex number. It might behave weirdly because $$f(z) \in{G} \not\rightarrow z \in{G}$$ where **G** is the grid.
 
 #### gen/
 
@@ -50,16 +52,15 @@ For problems on compilation or runtime stage you are always welcome to raise an 
 
 ### Contribution
 
-In case you have a good suggestion, you are always welcome to make a pull request.
+In case you have a good suggestion, a better implementation or something of your interest to add, you are always welcome to make a pull request.
 
 ## Installation
 
 ### Prerequisites
 
+* cc
+* OpenGL, GLUT
 * cmake
-* make
-* gcc/clang
-* GLUT
 
 ### Compiling
 
@@ -67,13 +68,17 @@ In case you have a good suggestion, you are always welcome to make a pull reques
 
 ## Usage
 
+	# plots [i, a[i]] for a
 	./bin/illustrator # ( < file | <<EOF | <<< command ) stdin
+	
+	# plots [re(a), im(a)] for a
+		./bin/complex_in # ( < file | <<EOF | <<< command ) stdin
 	
 ----
 
-	$EDITOR graph.cpp # edit calc function and char *function (function name) variable
+	# open (graph.cpp|graph_i.cpp|plot_fractal.cpp) and edit the macro
 	make
-	./bin/graph
+	./bin/___ # execute
 
 ## Note
 

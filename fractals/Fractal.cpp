@@ -7,13 +7,12 @@
 #define Y G::y()
 
 
+const real_t Fractal::size() const {
+	return std::min(width, height);
+}
+
 void Fractal::change_step(const real_t &diff) {
-	const real_t
-		act_w = width * step,
-		act_h = height * step;
 	step *= diff;
-	/* width = act_w / step; */
-	/* height = act_h / step; */
 }
 
 
@@ -29,8 +28,8 @@ bool Fractal::in_plot(const complex_t &z) const {
 Fractal::Fractal()
 {}
 
-Fractal::~Fractal() {
-}
+Fractal::~Fractal()
+{}
 
 
 int Fractal::level() const {

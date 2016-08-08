@@ -11,11 +11,11 @@
 #define STRFY(x) #x
 #define TOSTR(x) STRFY(x)
 
-#define PLOTFRACTAL DragonCurve
+#define PLOTFRACTAL KochsSnowFlake
 
 PLOTFRACTAL g_fractal = PLOTFRACTAL();
 
-void Graphics::ExtendedDisplay() {
+GFUNC_DISPLAY {
 	RGB_COLOR(.0, 1., .0);
 	g_fractal.Draw();
 
@@ -32,12 +32,10 @@ void Graphics::ExtendedDisplay() {
 	);
 }
 
-void Graphics::ExtendedKeyboard(unsigned char key, int x, int y) {
+GFUNC_KEYBOARD {
 	g_fractal.Keyboard(key);
-	Keyboard(key);
-	Display();
 }
 
-int main(int argc, char *argv[]) {
-	Graphics::InitOpenGL(&argc, argv, "plot_fractal");
+GMAIN {
+	GFUNC_INIT("plot_fractal");
 }

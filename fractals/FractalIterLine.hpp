@@ -10,20 +10,30 @@ protected:
 	int last_level = 0;
 	real_t last_size = -1;
 
-protected:
-	real_t size() const;
+	virtual const size_t GROW_INIT() = 0;
+	virtual const size_t GROW_EXP() = 0;
+
+	virtual void initialize();
 	virtual void reset() = 0;
-	virtual void increase_level() = 0;
+	virtual void increase_level();
 	virtual void decrease_level() = 0;
+	virtual void make_transform(size_t &i) = 0;
+public:
+	using Fractal::Fractal;
 };
 
 
-LINEAR(KochsFlake) {
-	static size_t no_lines(int level);
+LINEAR(KochsSnowFlake) {
+protected:
+	const size_t GROW_INIT();
+	const size_t GROW_EXP();
+
 	void reset();
-	void increase_level();
 	void decrease_level();
+	void make_transform(size_t &i);
 public:
+	KochsSnowFlake();
+	/* using FractalIterLine::FractalIterLine; */
 	void Draw();
 };
 

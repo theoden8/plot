@@ -7,7 +7,7 @@ axis
 	Graphics::x_(800., 3),
 	Graphics::y_(800., 3);
 
-void Graphics::InitOpenGL(int *argc, char **argv, const char *name) {
+void Graphics::InitGLUT(int *argc, char **argv, const char *name) {
 	// Initialize the GLUT library.
 	glutInit(argc, argv);
 	// Set the initial display mode.
@@ -20,7 +20,7 @@ void Graphics::InitOpenGL(int *argc, char **argv, const char *name) {
 
 	glutDisplayFunc(Display);
 	glutReshapeFunc(Reshape);
-	glutKeyboardFunc(ExtendedKeyboard);
+	glutKeyboardFunc(GeneralKeyboard);
 	glutSpecialFunc(Special);
 
 	glutMainLoop();
@@ -33,6 +33,11 @@ void Graphics::Reshape(int new_size_x, int new_size_y) {
 
 	glViewport(0, 0, x_.winsize, y_.winsize);
 	glutPostRedisplay();
+}
+
+void Graphics::GeneralKeyboard(unsigned char key, int x, int y) {
+	ExtendedKeyboard(key);
+	Keyboard(key);
 }
 
 void Graphics::Keyboard(unsigned char key) {
@@ -95,6 +100,7 @@ void Graphics::Keyboard(unsigned char key) {
 			x_.set_shift(increase);
 		break;
 	}
+	Display();
 }
 
 void Graphics::Special(int key, int x, int y) {
@@ -112,5 +118,4 @@ void Graphics::Special(int key, int x, int y) {
 			Keyboard('s');
 		break;
 	}
-	Display();
 }

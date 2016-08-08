@@ -12,7 +12,9 @@ class Graphics {
 public:
 	const static axis &x() { return x_; }
 	const static axis &y() { return y_; }
-	static void InitOpenGL(int *argc, char **argv, const char *name);
+	#define GMAIN int main(int argc, char *argv[])
+	#define GFUNC_INIT(NAME) Graphics::InitGLUT(&argc, argv, NAME)
+	static void InitGLUT(int *argc, char **argv, const char *name);
 private:
 	static void Display();
 
@@ -39,7 +41,7 @@ public:
 			real_t xx = x - x_.lborder,
 				   yy = y - y_.lborder;
 			glPushMatrix();                                  //Push the current matrix stack
-			glTranslatef(xx, yy, 0);                           //Multiplies the current matrix by a translation matrix
+			glTranslatef(xx, yy, 0);                         //Multiplies the current matrix by a translation matrix
 			glBegin(GL_QUADS);                               //Delimit the verticles of a primitive or a group of like primitives
 			glVertex3f(  x_.bold(),  y_.bold(), 0.0);        //Specifies a vertex for GL_QUAD
 			glVertex3f(  x_.bold(), -y_.bold(), 0.0);
@@ -67,10 +69,13 @@ public:
 private:
 	//GraphicsFuncs
 	static void Reshape(int new_size_x, int new_size_y);
+	static void GeneralKeyboard(unsigned char key, int x, int y);
 	static void Keyboard(unsigned char key);
 	static void Special(int key, int x, int y);
 
 	//defined within a project
+	#define GFUNC_DISPLAY void Graphics::ExtendedDisplay()
+	#define GFUNC_KEYBOARD void Graphics::ExtendedKeyboard(unsigned char key)
 	static void ExtendedDisplay();
-	static void ExtendedKeyboard(unsigned char key, int x, int y);
+	static void ExtendedKeyboard(unsigned char key);
 };

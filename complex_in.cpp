@@ -5,25 +5,22 @@
 
 std::vector <complex_t> data;
 
-void Graphics::ExtendedDisplay() {
+GFUNC_DISPLAY {
 	glColor3f(0.0f,1.0f,0.0f);
 	for(real_t i = 0; i < data.size(); ++i) {
 		DisplayPoint(data[i].real(), data[i].imag());
 	}
 }
 
-void Graphics::ExtendedKeyboard(unsigned char key, int x, int y) {
-	Keyboard(key);
-	Display();
-}
+GFUNC_KEYBOARD {}
 
 void read_data(std::vector <complex_t> &data) {
-	static real_t real, imag;
-	while(scanf(" %lf %lf", &real, &imag) != EOF)
-		data.push_back(complex_t(real, imag));
+	static real_t re, im;
+	while(scanf(" %lf %lf", &re, &im) != EOF)
+		data.push_back(complex_t(re, im));
 }
 
-int main(int argc, char *argv[]) {
+GMAIN {
 	read_data(data);
-	Graphics::InitOpenGL(&argc, argv, "complex_in");
+	GFUNC_INIT("complex_in");
 }

@@ -7,7 +7,6 @@
 
 typedef Graphics G;
 
-
 #define X G::x()
 #define Y G::y()
 
@@ -20,12 +19,13 @@ protected:
 		width = step,
 		height = step;
 
-	void change_step(const real_t &diff);
+	const real_t size() const;
+	virtual void change_step(const real_t &diff);
 	bool in_plot(const real_t &x, const real_t &y) const;
 	bool in_plot(const complex_t &z) const;
 public:
 	Fractal();
-	~Fractal();
+	virtual ~Fractal();
 
 	int level() const;
 

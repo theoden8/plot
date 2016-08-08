@@ -12,7 +12,7 @@ static real_t
 #define STRFY(x) #x
 #define TOSTR(x) STRFY(x)
 
-void Graphics::ExtendedDisplay() {
+GFUNC_DISPLAY {
 	RGB_COLOR(0.7f, 0.7f, 1.0f);
 	DisplayText(
 		0.02 * x_.gridsize, 0.98 * y_.gridsize,
@@ -40,7 +40,7 @@ void Graphics::ExtendedDisplay() {
 	}
 }
 
-void Graphics::ExtendedKeyboard(unsigned char key, int x, int y) {
+GFUNC_KEYBOARD {
 	static const real_t
 		change = 0.05,
 		increase = 1 + change,
@@ -56,9 +56,8 @@ void Graphics::ExtendedKeyboard(unsigned char key, int x, int y) {
 		break;
 	}
 	Keyboard(key);
-	Display();
 }
 
-int main(int argc, char **argv) {
-	Graphics::InitOpenGL(&argc, argv, "graph");
+GMAIN {
+	GFUNC_INIT("graph");
 }

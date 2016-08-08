@@ -3,7 +3,6 @@
 #include <cmath>
 
 #include "Functions.hpp"
-
 #include "Graphics.hpp"
 
 static complex_t
@@ -13,7 +12,7 @@ static complex_t
 #define STRFY(x) #x
 #define TOSTR(x) STRFY(x)
 
-void Graphics::ExtendedDisplay() {
+GFUNC_DISPLAY {
 	glColor3f(0.7f, 0.7f, 1.0f);
 	DisplayText(
 		0.02 * x_.gridsize, 0.98 * y_.gridsize,
@@ -50,7 +49,7 @@ void Graphics::ExtendedDisplay() {
 	}
 }
 
-void Graphics::ExtendedKeyboard(unsigned char key, int x, int y) {
+GFUNC_KEYBOARD {
 	static const real_t
 		change = 0.05,
 		increase = 1 + change,
@@ -65,10 +64,8 @@ void Graphics::ExtendedKeyboard(unsigned char key, int x, int y) {
 			g_step *= complex_t(decrease, 0);
 		break;
 	}
-	Keyboard(key);
-	Display();
 }
 
-int main(int argc, char **argv) {
-	Graphics::InitOpenGL(&argc, argv, "graph_i");
+GMAIN {
+	GFUNC_INIT("graph_i");
 }
