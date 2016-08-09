@@ -19,7 +19,6 @@ protected:
 	virtual void decrease_level() = 0;
 	virtual void make_transform(size_t &i) = 0;
 public:
-	using Fractal::Fractal;
 };
 
 
@@ -32,8 +31,6 @@ protected:
 	void decrease_level();
 	void make_transform(size_t &i);
 public:
-	KochsSnowFlake();
-	/* using FractalIterLine::FractalIterLine; */
 	void Draw();
 };
 

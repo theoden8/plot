@@ -1,4 +1,4 @@
-#include <Cmath>
+#include <cmath>
 #include <cstdlib>
 #include <cassert>
 
@@ -6,10 +6,6 @@
 
 
 typedef KochsSnowFlake KSF;
-
-
-KSF::KochsSnowFlake()
-{}
 
 
 const size_t GROW_INIT() {

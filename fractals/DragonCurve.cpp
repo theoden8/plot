@@ -3,7 +3,7 @@
 #include "FractalIterLine.hpp"
 
 
-static struct turtle {
+struct turtle {
 	complex_t position;
 	real_t facing;
 };
