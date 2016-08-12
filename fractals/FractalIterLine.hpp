@@ -39,6 +39,26 @@ public:
 
 
 FRACTAL(DragonCurve) {
+	int color_id = 0;
+
+	typedef struct _turtle {
+		complex_t position;
+		real_t facing;
+	} turtle;
+
+	typedef enum {
+		RED, GREEN, BLUE
+	} COLOR;
+
+	typedef enum {
+		LEFT = 1,
+		RIGHT = -1
+	} TURN;
+
+	void
+		go_forward(turtle &t, const real_t &len),
+		rotate(turtle &t, const real_t &deg),
+		recurse_draw(turtle &t, const real_t &len, const int depth, char sign = LEFT);
 public:
 	void Draw();
 };
