@@ -9,7 +9,7 @@
 static complex_t
 	g_step(10., 10.);
 
-#define PLOTFUNC(z) (sinh(cos(z)))
+#define PLOTFUNC(z) sinh(z)
 #define STRFY(x) #x
 #define TOSTR(x) STRFY(x)
 
@@ -43,6 +43,9 @@ GFUNC_DISPLAY {
 		center_red(.0, .0),
 		center_green(x_.gridsize, y_.gridsize / 3.),
 		center_blue(x_.gridsize / 3., y_.gridsize);
+	const real_t
+		diag = std::abs(rborder - lborder);
+
 
 	for(
 		real_t x = x_.lborder;
@@ -55,12 +58,12 @@ GFUNC_DISPLAY {
 			y += g_step.imag())
 		{
 			complex_t z(x, y);
+			z = PLOTFUNC(z);
 
-			#define CLZ(color) (.5 * std::abs(rborder - lborder) / std::abs(lborder + center_##color - z))
+			#define CLZ(color) (.5 * diag / std::abs((center_##color) - z))
 			RGB_COLOR(CLZ(red), CLZ(green), CLZ(blue));
 
-			z = PLOTFUNC(z);
-			DisplayPoint(z.real(), z.imag());
+			DisplayPoint(z);
 		}
 	}
 }

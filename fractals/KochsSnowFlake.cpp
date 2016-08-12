@@ -8,10 +8,12 @@
 typedef KochsSnowFlake KSF;
 
 
-const size_t GROW_INIT() {
-	return 3; }
-const size_t GROW_EXP() {
-	return 4; }
+const size_t KSF::GROW_INIT() {
+	return 3;
+}
+const size_t KSF::GROW_EXP() {
+	return 4;
+}
 
 
 void KSF::reset() {
@@ -21,8 +23,6 @@ void KSF::reset() {
 	if(size() != last_size) {
 		if(0 == last_size) {
 			last_size = size();
-			lines_.resize(GROW_INIT());
-
 			initialize();
 		} else {
 			last_size = 0;
@@ -48,7 +48,7 @@ void KSF::reset() {
 	}
 }
 
-void KSF::make_transform(size_t &i) {
+int KSF::make_transform(size_t i) {
 	static const real_t ST_3 = sqrt(3);
 
 	const size_t j = i * GROW_EXP();
@@ -75,6 +75,8 @@ void KSF::make_transform(size_t &i) {
 	lines_[j + 1] = line_t(b, e);
 	lines_[j + 2] = line_t(e, c);
 	lines_[j + 3] = line_t(c, d);
+
+	return 1;
 }
 
 void KSF::decrease_level() {
@@ -99,6 +101,6 @@ void KSF::Draw() {
 			continue;
 
 		RGB_COLOR(1., 1., 1.);
-		G::DisplayLine(it.first, it.second, std::abs(step / 10.));
+		G::DisplayLine(it.first, it.second);
 	}
 }

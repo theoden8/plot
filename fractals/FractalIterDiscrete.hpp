@@ -14,20 +14,17 @@ protected:
 
 DISCRETE(JuliaSet) {
 public:
-	using FractalIterDiscrete::FractalIterDiscrete;
 	void Draw();
 };
 
 DISCRETE(SierpinskiCarpet) {
 	static bool point_is_colored(int x, int y);
 public:
-	using FractalIterDiscrete::FractalIterDiscrete;
 	void Draw();
 };
 
 DISCRETE(SierpinskiTriangle) {
 	static bool point_is_colored(int x, int y);
 public:
-	using FractalIterDiscrete::FractalIterDiscrete;
 	void Draw();
 };

@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "Graphics.hpp"
+#include "Data.hpp"
 
 std::vector <real_t> data;
 
@@ -12,12 +13,6 @@ GFUNC_DISPLAY {
 }
 
 GFUNC_KEYBOARD {}
-
-void read_data(std::vector <real_t> &data) {
-	static real_t value;
-	while(scanf(" %lf", &value) != EOF)
-		data.push_back(value);
-}
 
 GMAIN {
 	read_data(data);

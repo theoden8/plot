@@ -34,7 +34,7 @@ void JuliaSet::Draw() {
 			if(iter == 0 || iter >= level())
 				continue;
 			RGB_COLOR((iter < level()) ? (float)iter / level() : 1., 0., 0.);
-			G::DisplayPoint(point.real(), point.imag());
+			G::DisplayPoint(point);
 		}
 	}
 }

@@ -24,7 +24,7 @@ void SierpinskiCarpet::Draw() {
 				continue;
 
 			RGB_COLOR(.0, .0, 1.);
-			G::DisplayPoint(x * step, y * step);
+			G::DisplayPoint(step * x, step * y);
 		}
 	}
 }

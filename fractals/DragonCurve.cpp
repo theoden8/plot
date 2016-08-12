@@ -8,25 +8,15 @@ struct turtle {
 	real_t facing;
 };
 
-void go_forward(turtle &t, const real_t &len, const real_t &step) {
-	const real_t
-		_to_x = cos(t.facing),
-		_to_y = sin(t.facing);
+void go_forward(turtle &t, const real_t &len) {
+	complex_t new_position = t.position + complex_t(
+		cos(t.facing),
+		sin(t.facing)
+	) * len;
 
-	const complex_t u_step(
-		step * _to_x,
-		step * _to_y
-	);
+	G::DisplayLine(t.position, new_position);
 
-	complex_t i_pos = t.position;
-	for(real_t i = 0.; i < len; i += step) {
-		i_pos += u_step;
-		G::DisplayPoint(i_pos.real(), i_pos.imag());
-	}
-	t.position += complex_t(
-		len * _to_x,
-		len * _to_y
-	);
+	t.position = new_position;
 }
 
 static enum {
@@ -51,7 +41,6 @@ static void recurse_draw(
 	turtle &t,
 	const real_t &len,
 	const int depth,
-	const real_t &step,
 	char sign = LEFT
 	)
 {
@@ -73,14 +62,14 @@ static void recurse_draw(
 	if(depth == 0) {
 		float *col = colors + g_static_id_color * 3;
 		RGB_COLOR(col[RED], col[GREEN], col[BLUE]);
-		go_forward(t, len, step);
+		go_forward(t, len);
 		return;
 	}
 
 	rotate(t, DEG_45 * sign * LEFT);
-	recurse_draw(t, len / ST_2, depth - 1, step, LEFT);
+	recurse_draw(t, len / ST_2, depth - 1, LEFT);
 	rotate(t, DEG_90 * sign * RIGHT);
-	recurse_draw(t, len / ST_2, depth - 1, step, RIGHT);
+	recurse_draw(t, len / ST_2, depth - 1, RIGHT);
 	rotate(t, DEG_45 * sign * LEFT);
 }
 
@@ -89,5 +78,5 @@ void DragonCurve::Draw() {
 	g_static_id_color = 0;
 	t.position = complex_t(0., 0.);
 	t.facing = 0.;
-	recurse_draw(t, std::min(width, height), level(), step);
+	recurse_draw(t, std::min(width, height), level());
 }

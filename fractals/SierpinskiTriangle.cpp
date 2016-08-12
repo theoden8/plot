@@ -10,6 +10,5 @@ void SierpinskiTriangle::Draw() {
 				G::DisplayPoint((x + y / 2.) * step, y * step * ST3_2);
 			}
 		}
-
 	}
 }

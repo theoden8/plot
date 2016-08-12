@@ -1,5 +1,6 @@
 #include <cstdlib>
-#include "glut_config.h"
+
+#include "include/glut_config.h"
 
 #include "Graphics.hpp"
 
