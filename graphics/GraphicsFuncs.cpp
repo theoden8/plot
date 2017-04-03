@@ -5,16 +5,20 @@
 #include "Graphics.hpp"
 
 axis
-	Graphics::x_(800., 3),
-	Graphics::y_(800., 3);
+	Graphics::x_(960., 3),
+	Graphics::y_(960., 3);
 
 void Graphics::InitGLUT(int *argc, char **argv, const char *name) {
+	int maxheight = glutGet(GLUT_SCREEN_HEIGHT);
+	int maxwidth = glutGet(GLUT_SCREEN_WIDTH);
 	// Initialize the GLUT library.
 	glutInit(argc, argv);
 	// Set the initial display mode.
-	/* glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH); */
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(x_.winsize, y_.winsize);
+	glutInitWindowPosition((maxwidth - x_.winsize) / 2, 0);
 	glutCreateWindow(name);
+	glutShowWindow();
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

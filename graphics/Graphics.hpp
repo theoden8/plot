@@ -7,6 +7,7 @@
 #include "Axis.hpp"
 
 #include <stdio.h>
+
 class Graphics {
 	static axis x_, y_;
 public:
@@ -28,48 +29,8 @@ public:
 	static inline void DisplayPoint(const complex_t &z) {
 		DisplayPoint(z.real(), z.imag());
 	}
-	static inline void DisplayPoint(const real_t &x, const real_t &y) {
-		/* static real_t prev_x = x, prev_y = y; */
-		if(
-			!x_.in_grid(x)
-			|| !y_.in_grid(y)
-			/* || std::abs(x - prev_x) <= x_.bold() */
-			/* || std::abs(y - prev_y) <= y_.bold() */
-		)
-		{
-			return;
-		} else {
-			/* prev_x = x; */
-			/* prev_y = y; */
-			real_t xx = x - x_.lborder,
-				   yy = y - y_.lborder;
-			glPushMatrix();                                  //Push the current matrix stack
-			glTranslatef(xx, yy, 0);                         //Multiplies the current matrix by a translation matrix
-			glPointSize((x_.thickness + y_.thickness) / sqrt(2));
-			glBegin(GL_POINTS);                               //Delimit the verticles of a primitive or a group of like primitives
-				glVertex3f(0., 0., 0.);
-			glEnd();
-			glPopMatrix();                                   //Pop the current matrix stack
-		}
-	}
-
-	static inline void DisplayLine(const complex_t &start, const complex_t &fin) {
-		if(!(
-				x_.in_grid(start.real())
-				&& x_.in_grid(fin.real())
-				&& y_.in_grid(start.imag())
-				&& y_.in_grid(fin.imag())))
-		{
-			return;
-		}
-		glPushMatrix();
-		glLineWidth((x_.thickness + y_.thickness) / sqrt(2));
-		glBegin(GL_LINES);
-			glVertex3f(start.real() - x_.lborder, start.imag() - y_.lborder, 0.);
-			glVertex3f(fin.real() - x_.lborder, fin.imag() - y_.lborder, 0.);
-		glEnd();
-		glPopMatrix();
-	}
+	static void DisplayPoint(const real_t &x, const real_t &y);
+	static void DisplayLine(const complex_t &start, const complex_t &fin);
 private:
 	//GraphicsFuncs
 	static void Reshape(int new_size_x, int new_size_y);
